@@ -25,12 +25,12 @@ export default function SleepGraphContainer(props) {
         <div className="sleep-graph-container">
             <SleepGraph data={data} {...displayedPlots}/>
             <FormGroup row>
-                <FormControlLabel
+            {/*    <FormControlLabel
                     control={
                         <Switch checked={displayedPlots.showHours} onChange={handleChange} value="showHours" name="showHours" color="primary"/>
                     }
                     label="Show Hours"
-                />
+                />*/}
                 <FormControlLabel
                     control={
                         <Switch
@@ -41,7 +41,7 @@ export default function SleepGraphContainer(props) {
                             color="primary"
                         />
                     }
-                    label="Show Mood"
+                    label={displayedPlots.showMood?"Showing Mood":"Showing Hours"}
                 />
 
             </FormGroup>

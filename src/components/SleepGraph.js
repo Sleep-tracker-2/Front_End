@@ -40,8 +40,8 @@ export default function SleepGraph({data, showHours, showMood}) {
                 label="Mood"
             />*/}
             {showMood && <VictoryBar
-                data={data.map(({day, mood}) => { 
-                    return { day: day, mood: mood * graphHeight / 4 }; 
+                data={data.map(({day, mood, hours}) => { 
+                    return { day: day, hours: hours, mood: mood * graphHeight / 4 }; 
                 })}
                 labels={data.map(({mood})=>moods[mood-1])}
                 style={{
@@ -52,7 +52,7 @@ export default function SleepGraph({data, showHours, showMood}) {
                     }
                 }}
                 x="day"
-                y="mood"
+                y="hours"
             />}
             {showHours &&<VictoryLine
                 data={data}
