@@ -2,25 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
 
-const data = [
-    { day: "Feb 23rd", hours: 7.5, mood: 2 },
-    { day: "Feb 24th", hours: 6, mood: 1 },
-    { day: "Feb 25th", hours: 9, mood: 4 },
-    { day: "Feb 26th", hours: 7.5, mood: 3 }
-];
-const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
-const moods = ["😡", "😔", "😐", "😄"];
-function moodToColor(mood, opacity){
-    switch(mood){
-        case(graphHeight): return "#00ff00"+opacity;
-        case(graphHeight*3/4): return "#ffff00"+opacity;
-        case(graphHeight/2): return "#ffaa00"+opacity;
-        case(graphHeight/4): return "#ff0000"+opacity;
-        default: return "#000000ff";
-    }
-}
 
-export default function SleepGraph(props) {
+export default function SleepGraph({data, checkedA, checkedB}) {
+    const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+    const moods = ["😡", "😔", "😐", "😄"];
+    function moodToColor(mood, opacity) {
+        switch (mood) {
+            case (graphHeight): return "#00ff00" + opacity;
+            case (graphHeight * 3 / 4): return "#ffff00" + opacity;
+            case (graphHeight / 2): return "#ffaa00" + opacity;
+            case (graphHeight / 4): return "#ff0000" + opacity;
+            default: return "#000000ff";
+        }
+    }
     return (
         <VictoryChart domainPadding={20}>
             <VictoryAxis
@@ -45,7 +39,7 @@ export default function SleepGraph(props) {
                 orientation="right"
                 label="Mood"
             />*/}
-            <VictoryBar
+            {checkedB && <VictoryBar
                 data={data.map(({day, mood}) => { 
                     return { day: day, mood: mood * graphHeight / 4 }; 
                 })}
@@ -59,12 +53,13 @@ export default function SleepGraph(props) {
                 }}
                 x="day"
                 y="mood"
-            />
-            <VictoryLine
+            />}
+            {checkedA &&<VictoryLine
                 data={data}
+                labels={checkedB ? []: ({datum})=> `${datum.hours} hrs`}
                 x="day"
                 y="hours"
-            />
+            />}
         </VictoryChart>
     );
 }
