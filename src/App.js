@@ -4,6 +4,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { Route } from "react-router-dom";
 import Splash from "./components/Splash";
+import NewEntry from "./components/NewEntry";
 
 function App() {
 	return (
@@ -11,7 +12,7 @@ function App() {
 			{
 				//<NavBar />
 			}
-			<Route exact path='/' component={Splash} />
+			<Route exact path='/' component={NewEntry} />
 			{
 				// <Route exact path='/signup' component={Signup} />
 				// <Route exact path='/signin' component={Signin} />
