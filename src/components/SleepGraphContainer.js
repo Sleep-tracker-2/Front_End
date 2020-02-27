@@ -11,32 +11,33 @@ const data = [
     { day: "Feb 26th", hours: 7.5, mood: 3 }
 ];
 export default function SleepGraphContainer(props) {
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
+    const [displayedPlots, setDisplayedPlots] = React.useState({
+        showHours: true,
+        showMood: true,
     });
 
-    const handleChange = name => event => {
-        setState({ ...state, [name]: event.target.checked });
+    const handleChange = event => {
+        setDisplayedPlots({ ...displayedPlots, [event.target.name]: event.target.checked });
     };
 
 
     return (
         <div className="sleep-graph-container">
-            <SleepGraph data={data} {...state}/>
+            <SleepGraph data={data} {...displayedPlots}/>
             <FormGroup row>
                 <FormControlLabel
                     control={
-                        <Switch checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" color="primary"/>
+                        <Switch checked={displayedPlots.showHours} onChange={handleChange} value="showHours" name="showHours" color="primary"/>
                     }
                     label="Show Hours"
                 />
                 <FormControlLabel
                     control={
                         <Switch
-                            checked={state.checkedB}
-                            onChange={handleChange('checkedB')}
-                            value="checkedB"
+                            checked={displayedPlots.showMood}
+                            onChange={handleChange}
+                            value="showMood"
+                            name="showMood"
                             color="primary"
                         />
                     }

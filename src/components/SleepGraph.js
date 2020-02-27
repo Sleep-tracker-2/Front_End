@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
 
 
-export default function SleepGraph({data, checkedA, checkedB}) {
+export default function SleepGraph({data, showHours, showMood}) {
     const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
     const moods = ["😡", "😔", "😐", "😄"];
     function moodToColor(mood, opacity) {
@@ -39,7 +39,7 @@ export default function SleepGraph({data, checkedA, checkedB}) {
                 orientation="right"
                 label="Mood"
             />*/}
-            {checkedB && <VictoryBar
+            {showMood && <VictoryBar
                 data={data.map(({day, mood}) => { 
                     return { day: day, mood: mood * graphHeight / 4 }; 
                 })}
@@ -54,9 +54,9 @@ export default function SleepGraph({data, checkedA, checkedB}) {
                 x="day"
                 y="mood"
             />}
-            {checkedA &&<VictoryLine
+            {showHours &&<VictoryLine
                 data={data}
-                labels={checkedB ? []: ({datum})=> `${datum.hours} hrs`}
+                labels={showMood ? []: ({datum})=> `${datum.hours} hrs`}
                 x="day"
                 y="hours"
             />}
