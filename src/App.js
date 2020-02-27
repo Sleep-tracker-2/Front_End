@@ -1,28 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import SleepGraphContainer from './components/SleepGraphContainer';
+
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Route } from "react-router-dom";
+import Splash from "./components/Splash";
 
 function App() {
-  return (
-    <div className="App">
-      <SleepGraphContainer />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			{
+				//<NavBar />
+			}
+			<Route exact path='/' component={Splash} />
+			{
+				// <Route exact path='/signup' component={Signup} />
+				// <Route exact path='/signin' component={Signin} />
+				// <PrivateRoute exact path='/sleep' component={SleepGraph} />
+			}
+
+			{
+				// <Footer />
+			}
+		</div>
+	);
 }
 
 export default App;
