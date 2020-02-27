@@ -8,7 +8,18 @@ const data = [
     { day: "Feb 25th", hours: 9, mood: 4 },
     { day: "Feb 26th", hours: 7.5, mood: 3 }
 ];
-const graphHeight = data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+const moods = ["😡", "😔", "😐", "😄"];
+function moodToColor(mood, opacity){
+    switch(mood){
+        case(graphHeight): return "#00ff00"+opacity;
+        case(graphHeight*3/4): return "#ffff00"+opacity;
+        case(graphHeight/2): return "#ffaa00"+opacity;
+        case(graphHeight/4): return "#ff0000"+opacity;
+        default: return "#000000ff";
+    }
+}
+
 export default function SleepGraph(props) {
     return (
         <VictoryChart domainPadding={20}>
@@ -22,7 +33,7 @@ export default function SleepGraph(props) {
                 domain={[0, graphHeight]}
                 label="Sleep (hrs)"
             />
-            <VictoryAxis
+            {/*<VictoryAxis
                 dependentAxis
                 tickValues={[
                     graphHeight / 4,
@@ -30,12 +41,22 @@ export default function SleepGraph(props) {
                     graphHeight * 3 / 4,
                     graphHeight
                 ]}
-                tickFormat={["😡", "😴", "😐", "😄"]}
+                tickFormat={moods}
                 orientation="right"
                 label="Mood"
-            />
+            />*/}
             <VictoryBar
-                data={data.map(datum => { return { day: datum.day, mood: datum.mood * graphHeight / 4 }; })}
+                data={data.map(({day, mood}) => { 
+                    return { day: day, mood: mood * graphHeight / 4 }; 
+                })}
+                labels={data.map(({mood})=>moods[mood-1])}
+                style={{
+                    data: {
+                        fill: ({datum})=> moodToColor(datum.mood, "dd"),
+                        stroke: ({datum}) => moodToColor(datum.mood, "ff"),
+                        strokeWidth: 1
+                    }
+                }}
                 x="day"
                 y="mood"
             />
