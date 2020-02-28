@@ -1,23 +1,24 @@
-
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Route } from "react-router-dom";
 import Splash from "./components/Splash";
-import NewEntry from "./components/NewEntry";
+
+import PrivateRoute from "./utils/PrivateRoute";
+import SleepGraphContainer from "./components/SleepGraphContainer";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+
 
 function App() {
 	return (
 		<div>
-			{
-				//<NavBar />
-			}
-			<Route exact path='/' component={NewEntry} />
-			{
-				// <Route exact path='/signup' component={Signup} />
-				// <Route exact path='/signin' component={Signin} />
-				// <PrivateRoute exact path='/sleep' component={SleepGraph} />
-			}
+
+			<Route exact path='/' component={Splash} />
+
+			<Route exact path='/signup' component={Signup} />
+			<Route exact path='/login' component={Login} />
+
+			<PrivateRoute exact path='/sleep' component={SleepGraphContainer} />
 
 			{
 				// <Footer />
