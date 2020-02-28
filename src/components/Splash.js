@@ -1,52 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, ButtonGroup } from "@material-ui/core";
 import { MemoryRouter as Router } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
-
-const splashStyle = {
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	width: "100vw",
-	height: "100vh",
-	backgroundColor: "#1b262c",
-	color: "black",
-	flexDirection: "column"
-};
-
-const buttonStyle = {
-	color: "black",
-	borderColor: "black"
-};
-
-const LinkBehavior = React.forwardRef((props, ref) => (
-	<RouterLink ref={ref} to='/sleep' {...props} />
-));
-
-const RegisterBehavior = React.forwardRef((props, ref) => (
-	<RouterLink ref={ref} to='/signup' {...props} />
-));
-
-const LoginBehavior = React.forwardRef((props, ref) => (
-	<RouterLink ref={ref} to='/login' {...props} />
-));
+import AuthButtons from "./AuthButtons";
 
 function Splash() {
+	const [token, setToken] = useState(localStorage.getItem("token"));
+
+	useEffect(() => {
+		// localStorage.setItem("token", "40019e");
+		// setToken(localStorage.getItem("token"));
+	}, []);
+
+	const splashStyle = {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100vw",
+		height: "100vh",
+		backgroundColor: "#1b262c",
+		color: "black",
+		flexDirection: "column"
+	};
+
+	const LinkBehavior = React.forwardRef((props, ref) => (
+		<RouterLink ref={ref} to='/sleep' {...props} />
+	));
+
+	const buttonStyle = {
+		color: "black",
+		borderColor: "black"
+	};
+
 	return (
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
-			<ButtonGroup
-				variant='text'
-				color='primary'
-				aria-label='text primary button group'
-			>
-				<Button component={RegisterBehavior} style={buttonStyle}>
-					Login
+			{!token && <AuthButtons buttonStyle={buttonStyle} />}
+			{token && (
+				<Button component={LinkBehavior} style={buttonStyle}>
+					Track your Sleep &gt;&gt;
 				</Button>
-				<Button component={LoginBehavior} style={buttonStyle}>
-					Register
-				</Button>
-			</ButtonGroup>
+			)}
 		</div>
 	);
 }
