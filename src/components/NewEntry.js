@@ -15,7 +15,6 @@ const initialState = {
     date: null,
     start_time: null,
     end_time: null,
-    /*hours: 8,*/
     comment: ""
 };
 
@@ -34,9 +33,9 @@ export default function MaterialUIPickers() {
         setState(initialState);
     }
     const handleSubmit = () => {
-        setAttempts(attempts+1);
-        for(const item in state){
-             if(!state[item]&&item!=='comment')return;
+        setAttempts(attempts + 1);
+        for (const item in state) {
+            if (!state[item] && item !== 'comment') return;
         }
         console.log("Submitted!");
         setAttempts(0);
@@ -46,12 +45,12 @@ export default function MaterialUIPickers() {
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Container maxWidth="sm">
-                <Grid container direction="column" spacing={2}>
-
-                    <Typography variant='h2'>New Entry:</Typography>
+                <Grid container direction="column">
+                
+                    <Typography variant='h3'>New Entry</Typography>
                     {/*   <Grid container justify="space-between" alignItems="baseline"> */}
                     <DatePicker
-                        error={!state.date && attempts>0}
+                        error={!state.date && attempts > 0}
                         required
                         initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
                         autoOk={true}
@@ -61,7 +60,7 @@ export default function MaterialUIPickers() {
                         format="MM/dd/yyyy"
                         margin="normal"
                         id="date-picker-inline"
-                        label="Date"
+                        label="What night is this for?"
                         value={state.date}
                         onChange={handleChangePicker('date')}
                         KeyboardButtonProps={{
@@ -86,7 +85,7 @@ export default function MaterialUIPickers() {
                         }}
                     />
                     <TimePicker
-                        error={!state.start_time && attempts > 0}
+                        error={!state.end_time && attempts > 0}
                         required
                         variant="inline"
                         margin="normal"
@@ -100,7 +99,9 @@ export default function MaterialUIPickers() {
                     />
                     {/* </Grid> */}
                     <FormControl>
-                        <InputLabel id="mood-select-label">How are you feeling?</InputLabel>
+                        <InputLabel
+                            error={!state.mood && attempts > 0} 
+                         id="mood-select-label">How are you feeling?</InputLabel>
                         <Select
                             error={!state.mood && attempts > 0}
                             required
@@ -115,22 +116,24 @@ export default function MaterialUIPickers() {
                             <MenuItem value={1}>{moods[0]}</MenuItem>
                         </Select>
                     </FormControl>
+                   
                     <TextField
                         label="Notes on sleep pattern, dreams, epiphanies ..."
                         value={state.comment}
                         name="comment"
                         onChange={handleChangeEvent}
                     />
-                    <Grid container justify="flex-start" alignItems="baseline">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                        >Submit</Button>
-                        <Button
+                    <Grid container item justify="flex-start" alignItems="baseline" style={{marginTop:"7px"}}>
+                        <Grid item xs={2}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSubmit}
+                            >Submit</Button></Grid>
+                        <Grid item xs={2}>  <Button
                             variant="contained"
                             onClick={resetForm}
-                        >Reset</Button>
+                        >Reset</Button></Grid>
                     </Grid>
                 </Grid>
             </Container>
