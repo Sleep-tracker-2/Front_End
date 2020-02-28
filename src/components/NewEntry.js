@@ -15,13 +15,14 @@ const initialState = {
     date: null,
     start_time: null,
     end_time: null,
-    hours: 8,
+    /*hours: 8,*/
     comment: ""
 };
 
 export default function MaterialUIPickers() {
     // The first commit of Material-UI
     const [state, setState] = React.useState(initialState);
+    const [errors, setErrors] = React.useState(initialState);
 
     const handleChangePicker = name => value => {
         setState({ ...state, [name]: value });
@@ -32,9 +33,19 @@ export default function MaterialUIPickers() {
     const resetForm = () => {
         setState(initialState);
     }
-
     const handleSubmit = () => {
-
+        let foundErrors = false;
+        let errorsLocal = errors;
+        for (const item in state) {
+            if (item !== 'comment') {
+                errorsLocal[item] = state[item] ? "" : "error";
+                if (!state[item]) foundErrors = true;
+            }
+        }
+        setErrors(errorsLocal);
+         if (!foundErrors) console.log(state);
+        //setErrors({...errors, hi:"error", you: 0 });
+        console.log(errors);
     }
 
     return (
@@ -45,6 +56,7 @@ export default function MaterialUIPickers() {
                     <Typography variant='h2'>New Entry:</Typography>
                     {/*   <Grid container justify="space-between" alignItems="baseline"> */}
                     <DatePicker
+                        error={errors.date}
                         required
                         initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
                         autoOk={true}
