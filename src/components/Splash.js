@@ -35,8 +35,9 @@ function Splash() {
 	return (
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
-			{!token && <AuthButtons buttonStyle={buttonStyle} />}
-			{token && (
+			{!token ? (
+				<AuthButtons buttonStyle={buttonStyle} />
+			) : (
 				<Button component={LinkBehavior} style={buttonStyle}>
 					Track your Sleep &gt;&gt;
 				</Button>
