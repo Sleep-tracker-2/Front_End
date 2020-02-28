@@ -1,29 +1,47 @@
-import React from "react";
-import { Container, Button } from "@material-ui/core";
-
-const splashStyle = {
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	width: "100vw",
-	height: "100vh",
-	backgroundColor: "#1b262c",
-	color: "black",
-	flexDirection: "column"
-};
-
-const buttonStyle = {
-	color: "black",
-	borderColor: "black"
-};
+import React, { useState, useEffect } from "react";
+import { Container, Button, ButtonGroup } from "@material-ui/core";
+import { MemoryRouter as Router } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
+import AuthButtons from "./AuthButtons";
 
 function Splash() {
+	const [token, setToken] = useState(localStorage.getItem("token"));
+
+	useEffect(() => {
+		// localStorage.setItem("token", "40019e");
+		// setToken(localStorage.getItem("token"));
+	}, []);
+
+	const splashStyle = {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100vw",
+		height: "100vh",
+		backgroundColor: "#1b262c",
+		color: "black",
+		flexDirection: "column"
+	};
+
+	const LinkBehavior = React.forwardRef((props, ref) => (
+		<RouterLink ref={ref} to='/sleep' {...props} />
+	));
+
+	const buttonStyle = {
+		color: "black",
+		borderColor: "black"
+	};
+
 	return (
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
-			<Button style={buttonStyle} variant='outlined'>
-				Track your Sleep >>
-			</Button>
+			{!token ? (
+				<AuthButtons buttonStyle={buttonStyle} />
+			) : (
+				<Button component={LinkBehavior} style={buttonStyle}>
+					Track your Sleep &gt;&gt;
+				</Button>
+			)}
 		</div>
 	);
 }
