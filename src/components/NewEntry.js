@@ -22,7 +22,7 @@ const initialState = {
 export default function MaterialUIPickers() {
     // The first commit of Material-UI
     const [state, setState] = React.useState(initialState);
-    const [errors, setErrors] = React.useState(initialState);
+    const [attempts, setAttempts] = React.useState(0);
 
     const handleChangePicker = name => value => {
         setState({ ...state, [name]: value });
@@ -34,18 +34,13 @@ export default function MaterialUIPickers() {
         setState(initialState);
     }
     const handleSubmit = () => {
-        let foundErrors = false;
-        let errorsLocal = errors;
-        for (const item in state) {
-            if (item !== 'comment') {
-                errorsLocal[item] = state[item] ? "" : "error";
-                if (!state[item]) foundErrors = true;
-            }
+        setAttempts(attempts+1);
+        for(const item in state){
+             if(!state[item]&&item!=='comment')return;
         }
-        setErrors(errorsLocal);
-         if (!foundErrors) console.log(state);
-        //setErrors({...errors, hi:"error", you: 0 });
-        console.log(errors);
+        console.log("Submitted!");
+        setAttempts(0);
+        resetForm();
     }
 
     return (
@@ -56,7 +51,7 @@ export default function MaterialUIPickers() {
                     <Typography variant='h2'>New Entry:</Typography>
                     {/*   <Grid container justify="space-between" alignItems="baseline"> */}
                     <DatePicker
-                        error={errors.date}
+                        error={!state.date && attempts>0}
                         required
                         initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
                         autoOk={true}
@@ -78,6 +73,7 @@ export default function MaterialUIPickers() {
                     </Grid>*/}
                     {/* <Grid container justify="space-between" alignItems="baseline">*/}
                     <TimePicker
+                        error={!state.start_time && attempts > 0}
                         required
                         variant="inline"
                         margin="normal"
@@ -90,6 +86,7 @@ export default function MaterialUIPickers() {
                         }}
                     />
                     <TimePicker
+                        error={!state.start_time && attempts > 0}
                         required
                         variant="inline"
                         margin="normal"
@@ -105,6 +102,7 @@ export default function MaterialUIPickers() {
                     <FormControl>
                         <InputLabel id="mood-select-label">How are you feeling?</InputLabel>
                         <Select
+                            error={!state.mood && attempts > 0}
                             required
                             abelId="mood-select-label"
                             name="mood"
