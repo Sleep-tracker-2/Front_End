@@ -1,10 +1,9 @@
-
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Route } from "react-router-dom";
 import Splash from "./components/Splash";
-
+import PrivateRoute from "./utils/PrivateRoute";
+import SleepGraphContainer from "./components/SleepGraphContainer";
 function App() {
 	return (
 		<div>
@@ -15,8 +14,10 @@ function App() {
 			{
 				// <Route exact path='/signup' component={Signup} />
 				// <Route exact path='/signin' component={Signin} />
-				// <PrivateRoute exact path='/sleep' component={SleepGraph} />
+				//
 			}
+
+			<PrivateRoute exact path='/sleep' component={SleepGraphContainer} />
 
 			{
 				// <Footer />

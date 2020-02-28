@@ -20,7 +20,15 @@ const buttonStyle = {
 };
 
 const LinkBehavior = React.forwardRef((props, ref) => (
-	<RouterLink ref={ref} to='/graph' {...props} />
+	<RouterLink ref={ref} to='/sleep' {...props} />
+));
+
+const RegisterBehavior = React.forwardRef((props, ref) => (
+	<RouterLink ref={ref} to='/signup' {...props} />
+));
+
+const LoginBehavior = React.forwardRef((props, ref) => (
+	<RouterLink ref={ref} to='/login' {...props} />
 ));
 
 function Splash() {
@@ -31,11 +39,13 @@ function Splash() {
 				variant='text'
 				color='primary'
 				aria-label='text primary button group'
-				style={buttonStyle}
 			>
-				<Button>One</Button>
-				<Button>Two</Button>
-				<Button>Three</Button>
+				<Button component={RegisterBehavior} style={buttonStyle}>
+					Login
+				</Button>
+				<Button component={LoginBehavior} style={buttonStyle}>
+					Register
+				</Button>
 			</ButtonGroup>
 		</div>
 	);
