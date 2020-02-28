@@ -1,48 +1,129 @@
 import 'date-fns';
+import 'typeface-roboto';
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Container, Typography, TextField, Select, MenuItem, InputLabel, Button, FormControl } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
+    TimePicker,
+    DatePicker,
 } from '@material-ui/pickers';
+const moods = ["😡", "😔", "😐", "😄"];
+
+const initialState = {
+    mood: '',
+    date: null,
+    start_time: null,
+    end_time: null,
+    hours: 8,
+    comment: ""
+};
 
 export default function MaterialUIPickers() {
     // The first commit of Material-UI
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [state, setState] = React.useState(initialState);
 
-    const handleDateChange = date => {
-        setSelectedDate(date);
+    const handleChangePicker = name => value => {
+        setState({ ...state, [name]: value });
     };
+    const handleChangeEvent = event => {
+        setState({ ...state, [event.target.name]: event.target.value });
+    }
+    const resetForm = () => {
+        setState(initialState);
+    }
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
-                <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                    }}
-                />
-                <KeyboardTimePicker
-                    margin="normal"
-                    id="time-picker"
-                    label="Time picker"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change time',
-                    }}
-                />
-            </Grid>
+            <Container maxWidth="sm">
+                <Grid container direction="column" spacing={2}>
+
+                    <Typography variant='h2'>New Entry:</Typography>
+                    {/*   <Grid container justify="space-between" alignItems="baseline"> */}
+                    <DatePicker
+                        required
+                        initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
+                        autoOk={true}
+                        disableFuture={true}
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Date"
+                        value={state.date}
+                        onChange={handleChangePicker('date')}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+
+                    />
+                    {/* <TextField InputProps={{ readOnly: true }} value={`${state.hours} hours of sleep`} align="center" />
+                    </Grid>*/}
+                    {/* <Grid container justify="space-between" alignItems="baseline">*/}
+                    <TimePicker
+                        required
+                        variant="inline"
+                        margin="normal"
+                        id="time-picker"
+                        label="What time did you go to bed?"
+                        value={state.start_time}
+                        onChange={handleChangePicker('start_time')}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change start time',
+                        }}
+                    />
+                    <TimePicker
+                        required
+                        variant="inline"
+                        margin="normal"
+                        id="time-picker"
+                        label="What time did you wake up?"
+                        value={state.end_time}
+                        onChange={handleChangePicker('end_time')}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change time',
+                        }}
+                    />
+                    {/* </Grid> */}
+                    <FormControl>
+                        <InputLabel id="mood-select-label">How are you feeling?</InputLabel>
+                        <Select
+                            required
+                            abelId="mood-select-label"
+                            name="mood"
+                            value={state.mood}
+                            onChange={handleChangeEvent}
+                        >
+                            <MenuItem value={4}>{moods[3]}</MenuItem>
+                            <MenuItem value={3}>{moods[2]}</MenuItem>
+                            <MenuItem value={2}>{moods[1]}</MenuItem>
+                            <MenuItem value={1}>{moods[0]}</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        label="Notes on sleep pattern, dreams, epiphanies ..."
+                        value={state.comment}
+                        name="comment"
+                        onChange={handleChangeEvent}
+                    />
+                    <Grid container justify="flex-start" alignItems="baseline">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmit}
+                        >Submit</Button>
+                        <Button
+                            variant="contained"
+                            onClick={resetForm}
+                        >Reset</Button>
+                    </Grid>
+                </Grid>
+            </Container>
         </MuiPickersUtilsProvider>
     );
 }
