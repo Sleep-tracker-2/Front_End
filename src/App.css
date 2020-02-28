@@ -44,3 +44,28 @@
 .splashTitle {
 	font-size: 45px;
 }
+
+.user-entry {
+  display: flex;
+  align-content: flex-end;
+  flex-direction: column;
+  justify-content:center;
+  padding: 55px;
+  border: 2px solid darkgrey;
+  border-radius: 15px;
+  height: 130px;
+  background-color: #555555;
+}
+
+.user-entry-fields {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  width: 275px;
+}
+.user-entry-button {
+  height: 32px;
+  align-self: flex-end;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
