@@ -1,4 +1,5 @@
 
+/*
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -60,7 +61,7 @@ export default function Login(props) {
 		</form>
 	);
 }
-=======
+*/
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
@@ -128,4 +129,3 @@ const Login = () => {
 };
 
 export default Login;
-
