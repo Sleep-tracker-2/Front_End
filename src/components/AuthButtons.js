@@ -18,10 +18,10 @@ function AuthButtons({ buttonStyle }) {
 			color='primary'
 			aria-label='text primary button group'
 		>
-			<Button component={RegisterBehavior} style={buttonStyle}>
+			<Button component={LoginBehavior} style={buttonStyle}>
 				Login
 			</Button>
-			<Button component={LoginBehavior} style={buttonStyle}>
+			<Button component={RegisterBehavior} style={buttonStyle}>
 				Register
 			</Button>
 		</ButtonGroup>
