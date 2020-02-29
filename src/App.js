@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Splash from "./components/Splash";
 
 import PrivateRoute from "./utils/PrivateRoute";
@@ -12,6 +12,7 @@ function App() {
 	return (
 		<div>
 			<Route exact path='/' component={Splash} />
+			<Route exact path='/redirect' render={props => <Redirect to='/' />} />
 
 			<PrivateRoute exact path='/sleep' component={SleepGraphContainer} />
 

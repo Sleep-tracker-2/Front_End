@@ -65,8 +65,10 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { Button, LinearProgress } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
+	const history = useHistory();
 	return (
 		<>
 			<Formik
@@ -86,8 +88,11 @@ const Login = () => {
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
 						setSubmitting(false);
-						alert(JSON.stringify(values, null, 2));
-					}, 500);
+						// AXIOS CALL HERE
+					}, 200);
+					localStorage.setItem("token", "abcde");
+					history.push("/redirect");
+					// history.push("/");
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
