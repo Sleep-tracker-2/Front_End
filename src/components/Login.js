@@ -87,11 +87,10 @@ const Login = () => {
 				}}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
-						setSubmitting(false);
-						// AXIOS CALL HERE
-					}, 200);
-					localStorage.setItem("token", "abcde");
-					history.push("/redirect");
+						localStorage.setItem("token", "abcde");
+						history.push("/redirect");
+					}, 4000);
+
 					// history.push("/");
 				}}
 			>
