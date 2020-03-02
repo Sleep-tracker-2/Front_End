@@ -1,12 +1,11 @@
 import React from "react";
 import { Button, ButtonGroup } from "@material-ui/core";
-import { MemoryRouter as Router } from "react-router";
-import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Login from "./Login";
+import Signup from './Signup'
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -24,36 +23,40 @@ const useStyles = makeStyles(theme => ({
 
 function AuthButtons({ buttonStyle }) {
 	const classes = useStyles();
-	const [loginModule, setLoginModule] = React.useState(false);
+
+	const [loginModal, setLoginModal] = React.useState(false);
+	const [signupModal, setSignupModal] = React.useState(false)
 
 	const handleLogin = () => {
-		setLoginModule(!loginModule);
+		setLoginModal(!loginModal);
 	};
 
-	// const RegisterBehavior = React.forwardRef((props, ref) => (
-	// 	<RouterLink ref={ref} to='/signup' {...props} />
-	// ));
-
-	// const LoginBehavior = React.forwardRef((props, ref) => (
-	// 	<RouterLink ref={ref} to='/login' {...props} />
-	// ));
+	const handleSignup = () => {
+		setSignupModal(!signupModal);
+	};
 
 	return (
+		<>
 		<ButtonGroup
 			variant='text'
 			color='primary'
 			aria-label='text primary button group'
 		>
 			<Button style={buttonStyle} onClick={handleLogin}>
-				Login
+				Log In
 			</Button>
-			<Button style={buttonStyle}>Register</Button>
+			<Button style={buttonStyle} onClick={handleSignup}>
+				Sign Up
+			</Button>
+
+		</ButtonGroup>
+
 
 			<Modal
 				aria-labelledby='transition-modal-title'
 				aria-describedby='transition-modal-description'
 				className={classes.modal}
-				open={loginModule}
+				open={loginModal}
 				onClose={handleLogin}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
@@ -61,11 +64,31 @@ function AuthButtons({ buttonStyle }) {
 					timeout: 500
 				}}
 			>
-				<Fade in={loginModule}>
+				<Fade in={loginModal}>
 					<Login />
 				</Fade>
 			</Modal>
-		</ButtonGroup>
+
+
+			<Modal
+				aria-labelledby='transition-modal-title'
+				aria-describedby='transition-modal-description'
+				className={classes.modal}
+				open={signupModal}
+				onClose={handleSignup}
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500
+				}}
+			>
+				<Fade in={signupModal}>
+					<Signup/>
+				</Fade>
+			</Modal>
+
+		</>
+
 	);
 }
 
