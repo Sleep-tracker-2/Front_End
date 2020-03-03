@@ -16,7 +16,7 @@ const Signup = () => {
                     const errors = {};
                     if (!values.username) {
                         errors.username = 'Required';
-                    } else if (!/^[A-Z0-9._%+-]/i.test(values.username)) {
+                    } else if (!/^[A-Z0-9._%+-]/i.test(values.username)||values.username.includes(" ")) {
                         errors.username = 'Invalid username';
                     }
                     if(values.password!==values.confirmPassword){
