@@ -27,7 +27,7 @@ function SleepTrackerButtons({ buttonStyle, page }) {
     const classes = useStyles();
 
     const [entryModal, setEntryModal] = React.useState(page === "new_entry");
-    const [graphModal, setGraphModal] = React.useState(page==="sleep")
+    const [graphModal, setGraphModal] = React.useState(page==="sleep");
 
     const handleNewEntry = () => {
         entryModal
