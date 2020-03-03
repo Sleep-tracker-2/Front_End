@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
+import axios from 'axios';
 
 const Signup = () => {
     return (
@@ -16,11 +16,7 @@ const Signup = () => {
                     const errors = {};
                     if (!values.username) {
                         errors.username = 'Required';
-                    } else if (
-                        !/^[A-Z0-9._%+-]/i.test(
-                            values.username
-                        )
-                    ) {
+                    } else if (!/^[A-Z0-9._%+-]/i.test(values.username)) {
                         errors.username = 'Invalid username';
                     }
                     if(values.password!==values.confirmPassword){
@@ -29,14 +25,21 @@ const Signup = () => {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        setSubmitting(false);
-                        alert(JSON.stringify(values, null, 2));
-                    }, 500);
+                    axios
+                        .post(
+                            'https://sleeptracker2.herokuapp.com/api/users/register',
+                            values
+                        )
+                        .then(res => {
+                            console.log(res.status);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
                 }}
             >
                 {({ submitForm, isSubmitting }) => (
-                    <Form className="user-entry">
+                    <Form className='user-entry'>
                         <Field
                             component={TextField}
                             name='username'
@@ -72,6 +75,5 @@ const Signup = () => {
         </>
     );
 };
-
 
 export default Signup;
