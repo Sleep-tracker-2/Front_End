@@ -1,6 +1,7 @@
 import 'date-fns';
 import 'typeface-roboto';
 import React from 'react';
+import { SleepContext } from "../contexts/SleepContext";
 import { Grid, Container, Typography, TextField, Select, MenuItem, InputLabel, Button, FormControl } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -8,7 +9,6 @@ import {
     TimePicker,
     DatePicker,
 } from '@material-ui/pickers';
-const moods = ["😡", "😔", "😐", "😄"];
 
 const initialState = {
     mood: '',
@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export default function MaterialUIPickers() {
-    // The first commit of Material-UI
+    const { moods } = React.useContext(SleepContext);
     const [state, setState] = React.useState(initialState);
     const [attempts, setAttempts] = React.useState(0);
 

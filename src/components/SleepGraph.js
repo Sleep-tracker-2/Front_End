@@ -1,12 +1,13 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
+import {SleepContext} from "../contexts/SleepContext";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
 
 
 export default function SleepGraph({data, showHours, showMood}) {
     const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
-    const moods = ["😡", "😔", "😐", "😄"];
+    const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
         switch (mood) {
             case (graphHeight): return "#00ff00" + opacity;
