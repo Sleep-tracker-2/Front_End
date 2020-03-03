@@ -6,6 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import NewEntry from "./NewEntry";
 import SleepGraphContainer from "./SleepGraphContainer";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     modal: {
@@ -21,18 +22,23 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function SleepTrackerButtons({ buttonStyle }) {
+function SleepTrackerButtons({ buttonStyle, page }) {
+    const history = useHistory();
     const classes = useStyles();
 
-    const [entryModal, setEntryModal] = React.useState(false);
-    const [graphModal, setGraphModal] = React.useState(false)
+    const [entryModal, setEntryModal] = React.useState(page === "new_entry");
+    const [graphModal, setGraphModal] = React.useState(page==="sleep")
 
     const handleNewEntry = () => {
-        setEntryModal(!entryModal);
+        entryModal
+            ? history.push("/")
+            : history.push("/new_entry");
     };
 
     const handleGraph = () => {
-        setGraphModal(!graphModal);
+        graphModal
+            ? history.push("/")
+            : history.push("/sleep");
     };
 
     return (

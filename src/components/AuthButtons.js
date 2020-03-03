@@ -6,6 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Login from "./Login";
 import Signup from './Signup'
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -21,35 +22,40 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function AuthButtons({ buttonStyle }) {
+function AuthButtons({ buttonStyle, page }) {
+	const history = useHistory();
 	const classes = useStyles();
 
-	const [loginModal, setLoginModal] = React.useState(false);
-	const [signupModal, setSignupModal] = React.useState(false)
+	const [loginModal, setLoginModal] = React.useState(page === "login");
+	const [signupModal, setSignupModal] = React.useState(page === "signup");
 
 	const handleLogin = () => {
-		setLoginModal(!loginModal);
+		loginModal
+			? history.push("/")
+			: history.push("/login");
 	};
 
 	const handleSignup = () => {
-		setSignupModal(!signupModal);
+		signupModal
+			? history.push("/")
+			: history.push("/signup");
 	};
 
 	return (
 		<>
-		<ButtonGroup
-			variant='text'
-			color='primary'
-			aria-label='text primary button group'
-		>
-			<Button style={buttonStyle} onClick={handleLogin}>
-				Log In
+			<ButtonGroup
+				variant='text'
+				color='primary'
+				aria-label='text primary button group'
+			>
+				<Button style={buttonStyle} onClick={handleLogin}>
+					Log In
 			</Button>
-			<Button style={buttonStyle} onClick={handleSignup}>
-				Sign Up
+				<Button style={buttonStyle} onClick={handleSignup}>
+					Sign Up
 			</Button>
 
-		</ButtonGroup>
+			</ButtonGroup>
 
 
 			<Modal
@@ -83,7 +89,7 @@ function AuthButtons({ buttonStyle }) {
 				}}
 			>
 				<Fade in={signupModal}>
-					<Signup/>
+					<Signup />
 				</Fade>
 			</Modal>
 
