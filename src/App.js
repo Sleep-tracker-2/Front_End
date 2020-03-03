@@ -13,7 +13,7 @@ function App() {
 		<div>
 			<Route exact path='/' component={Splash} />
 			<Route exact path='/redirect' render={props => <Redirect to='/' />} />
-
+			<Route exact path='/login' component={Login} />
 			<PrivateRoute exact path='/sleep' component={SleepGraphContainer} />
 
 			{

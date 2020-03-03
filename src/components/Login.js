@@ -89,11 +89,12 @@ const Login = () => {
                 onSubmit={(values, { setSubmitting }) => {
                     axios
                         .post(
-                            'https://sleeptracker2.herokuapp.com/api/users/register',
+                            'https://sleeptracker2.herokuapp.com/api/users/login',
                             values
                         )
                         .then(res => {
                             localStorage.setItem('token', res.payload);
+                            console.log(res)
                         })
                         .catch(err => console.log(err));
                         history.push('/redirect');
