@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import Paper from "@material-ui/core/Paper";
 import Login from "./Login";
 import Signup from './Signup'
 import { useHistory } from "react-router-dom";
@@ -71,7 +72,9 @@ function AuthButtons({ buttonStyle, page }) {
 				}}
 			>
 				<Fade in={loginModal}>
-					<Login />
+					<Paper elevation={3}>
+						<Login />
+					</Paper>
 				</Fade>
 			</Modal>
 
@@ -89,7 +92,9 @@ function AuthButtons({ buttonStyle, page }) {
 				}}
 			>
 				<Fade in={signupModal}>
-					<Signup />
+					<Paper elevation={3}>
+						<Signup />
+					</Paper>
 				</Fade>
 			</Modal>
 
