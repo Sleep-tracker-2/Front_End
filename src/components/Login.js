@@ -93,11 +93,12 @@ const Login = () => {
                             values
                         )
                         .then(res => {
-                            localStorage.setItem('token', res.payload);
+                            localStorage.setItem('token', res.data.token);
                             console.log(res)
+                            history.push('/redirect');
                         })
                         .catch(err => console.log(err));
-                        history.push('/redirect');
+                       
                 }}
             >
                 {({ submitForm, isSubmitting }) => (
