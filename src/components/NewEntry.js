@@ -44,7 +44,7 @@ export default function MaterialUIPickers() {
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" className="modal-box">
                 <Grid container direction="column">
                 
                     <Typography variant='h3'>New Entry</Typography>

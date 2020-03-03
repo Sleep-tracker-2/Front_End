@@ -3,8 +3,9 @@ import { Container, Button, ButtonGroup } from "@material-ui/core";
 import { MemoryRouter as Router } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
+import SleepTrackerButtons from "./SleepTrackerButtons";
 
-function Splash() {
+function Splash({page}) {
 	const [token, setToken] = useState(localStorage.getItem("token"));
 
 	useEffect(() => {
@@ -36,12 +37,16 @@ function Splash() {
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
 			{!token ? (
-				<AuthButtons buttonStyle={buttonStyle} />
+				<AuthButtons buttonStyle={buttonStyle} page={page} />
 			) : (
+				<SleepTrackerButtons buttonStyle={buttonStyle} page={page} />
+				/*
 				<Button component={LinkBehavior} style={buttonStyle}>
 					Track your Sleep &gt;&gt;
-				</Button>
-			)}
+				</Button>*/
+			)
+			
+		}
 		</div>
 	);
 }

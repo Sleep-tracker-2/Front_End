@@ -14,8 +14,11 @@ function App() {
 		<div>
 			<Route exact path='/' component={Splash} />
 			<Route exact path='/redirect' render={props => <Redirect to='/' />} />
-			<Route exact path='/login' component={Login} />
-			<PrivateRoute exact path='/sleep' component={SleepGraphContainer} />
+			<Route exact path='/login' render={(params) => <Splash {...params} page="login" />} />
+			<Route exact path='/signup' render={(params) => <Splash {...params} page="signup" />} />
+
+			<Route exact path='/sleep' render={(params) => <Splash {...params} page="sleep" />} />
+			<Route exact path='/new_entry' render={(params) => <Splash {...params} page="new_entry" />} />
 
 			{
 				// <Footer />
