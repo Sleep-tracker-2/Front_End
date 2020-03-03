@@ -125,6 +125,7 @@ const Login = () => {
                             color='primary'
                             disabled={isSubmitting}
                             onClick={submitForm}
+                            type="submit"
                         >
                             Submit
                         </Button>
