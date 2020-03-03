@@ -29,8 +29,9 @@ export default function SleepGraphContainer(props) {
 	};
 
 	return (
+        <>
 		<SleepContext.Provider>
-			<div className='sleep-graph-container'>
+			<div className='modal-box'>
 				<SleepGraph data={state.sleep} {...displayedPlots} />
 				<FormGroup row>
 					{/*    <FormControlLabel
@@ -54,5 +55,6 @@ export default function SleepGraphContainer(props) {
 				</FormGroup>
 			</div>
 		</SleepContext.Provider>
+        </>
 	);
 }

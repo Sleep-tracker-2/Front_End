@@ -3,6 +3,7 @@ import { Container, Button, ButtonGroup } from "@material-ui/core";
 import { MemoryRouter as Router } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
+import SleepTrackerButtons from "./SleepTrackerButtons";
 
 function Splash() {
 	const [token, setToken] = useState(localStorage.getItem("token"));
@@ -38,10 +39,14 @@ function Splash() {
 			{!token ? (
 				<AuthButtons buttonStyle={buttonStyle} />
 			) : (
+				<SleepTrackerButtons buttonStyle={buttonStyle} />
+				/*
 				<Button component={LinkBehavior} style={buttonStyle}>
 					Track your Sleep &gt;&gt;
-				</Button>
-			)}
+				</Button>*/
+			)
+			
+		}
 		</div>
 	);
 }
