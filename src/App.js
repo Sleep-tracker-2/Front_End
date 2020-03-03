@@ -7,6 +7,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import SleepGraphContainer from "./components/SleepGraphContainer";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import NewEntry from "./components/NewEntry";
 
 
 function App() {
