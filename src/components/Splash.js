@@ -7,10 +7,6 @@ import AuthButtons from "./AuthButtons";
 function Splash() {
 	const [token, setToken] = useState(localStorage.getItem("token"));
 
-	useEffect(() => {
-		// localStorage.setItem("token", "40019e");
-		// setToken(localStorage.getItem("token"));
-	}, []);
 
 	const splashStyle = {
 		display: "flex",

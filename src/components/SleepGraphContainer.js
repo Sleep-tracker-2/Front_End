@@ -15,6 +15,7 @@ const data = [];
 export default function SleepGraphContainer(props) {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	console.log(state)
 
 	const [displayedPlots, setDisplayedPlots] = React.useState({
 		showHours: true,
@@ -29,16 +30,10 @@ export default function SleepGraphContainer(props) {
 	};
 
 	return (
-		<SleepContext.Provider>
+		<SleepContext.Provider value={state.sleep}>
 			<div className='sleep-graph-container'>
-				<SleepGraph data={state.sleep} {...displayedPlots} />
+				<SleepGraph data={state.sleep.data} {...displayedPlots} />
 				<FormGroup row>
-					{/*    <FormControlLabel
-                    control={
-                        <Switch checked={displayedPlots.showHours} onChange={handleChange} value="showHours" name="showHours" color="primary"/>
-                    }
-                    label="Show Hours"
-                />*/}
 					<FormControlLabel
 						control={
 							<Switch
