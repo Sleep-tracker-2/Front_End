@@ -1,8 +1,11 @@
+
 import React, { useReducer } from "react";
+
 import SleepGraph from "./SleepGraph";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+
 
 import { SleepContext } from "../contexts/SleepContext";
 
@@ -11,6 +14,7 @@ import { reducer, initialState } from "../reducers";
 const data = [];
 export default function SleepGraphContainer(props) {
 	const [state, dispatch] = useReducer(reducer, initialState);
+
 
 	const [displayedPlots, setDisplayedPlots] = React.useState({
 		showHours: true,

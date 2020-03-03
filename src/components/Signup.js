@@ -19,6 +19,9 @@ const Signup = () => {
                     } else if (!/^[A-Z0-9._%+-]/i.test(values.username)) {
                         errors.username = 'Invalid username';
                     }
+                    if(values.password!==values.confirmPassword){
+                        errors.confirmPassword= 'Passwords do not match';
+                    }
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
@@ -49,6 +52,12 @@ const Signup = () => {
                             type='password'
                             label='Password'
                             name='password'
+                        />
+                        <Field
+                            component={TextField}
+                            type='password'
+                            label='Confirm Password'
+                            name='confirmPassword'
                         />
                         {isSubmitting && <LinearProgress />}
                         <br />
