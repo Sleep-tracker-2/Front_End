@@ -97,7 +97,9 @@ const Login = () => {
                             console.log(res)
                             history.push('/redirect');
                         })
-                        .catch(err => console.log(err));
+                        .catch(err => {
+                            setSubmitting(false)
+                        });
                        
                 }}
             >

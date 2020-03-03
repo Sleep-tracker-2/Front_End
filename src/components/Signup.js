@@ -34,7 +34,9 @@ const Signup = () => {
                             console.log(res.status);
                         })
                         .catch(err => {
-                            console.log(err);
+                            
+                                setSubmitting(false)
+                            
                         });
                 }}
             >
