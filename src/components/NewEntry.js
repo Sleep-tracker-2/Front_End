@@ -6,8 +6,8 @@ import { Grid, Container, Typography, TextField, Select, MenuItem, InputLabel, B
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    TimePicker,
-    DatePicker,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 const initialState = {
@@ -44,12 +44,12 @@ export default function MaterialUIPickers() {
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Container maxWidth="sm" className="modal-box">
+            <Container maxWidth="lg" className="modal-box" style={{width:"450px"}}>
                 <Grid container direction="column">
                 
                     <Typography variant='h3'>New Entry</Typography>
                     {/*   <Grid container justify="space-between" alignItems="baseline"> */}
-                    <DatePicker
+                    <KeyboardDatePicker
                         error={!state.date && attempts > 0}
                         required
                         initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
@@ -71,8 +71,9 @@ export default function MaterialUIPickers() {
                     {/* <TextField InputProps={{ readOnly: true }} value={`${state.hours} hours of sleep`} align="center" />
                     </Grid>*/}
                     {/* <Grid container justify="space-between" alignItems="baseline">*/}
-                    <TimePicker
+                    <KeyboardTimePicker
                         error={!state.start_time && attempts > 0}
+                        autoOk={true}
                         required
                         variant="inline"
                         margin="normal"
@@ -84,8 +85,9 @@ export default function MaterialUIPickers() {
                             'aria-label': 'change start time',
                         }}
                     />
-                    <TimePicker
+                    <KeyboardTimePicker
                         error={!state.end_time && attempts > 0}
+                        autoOk={true}
                         required
                         variant="inline"
                         margin="normal"
@@ -124,15 +126,17 @@ export default function MaterialUIPickers() {
                         onChange={handleChangeEvent}
                     />
                     <Grid container item justify="flex-start" alignItems="baseline" style={{marginTop:"7px"}}>
-                        <Grid item xs={2}>
+                        <Grid item>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={handleSubmit}
                             >Submit</Button></Grid>
-                        <Grid item xs={2}>  <Button
+                        <Grid item>  <Button
+                        color="secondary"
                             variant="contained"
                             onClick={resetForm}
+                            type="submit"
                         >Reset</Button></Grid>
                     </Grid>
                 </Grid>
