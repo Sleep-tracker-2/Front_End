@@ -10,7 +10,8 @@ const Signup = () => {
             <Formik
                 initialValues={{
                     username: '',
-                    password: ''
+                    password: '',
+                    confirmPassword: ''
                 }}
                 validate={values => {
                     const errors = {};
@@ -25,16 +26,22 @@ const Signup = () => {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
+                    const submitValues={
+                        username: values.username,
+                        password: values.password
+                    };
+                    setSubmitting(true);
                     axios
                         .post(
                             'https://sleeptracker2.herokuapp.com/api/users/register',
-                            values
+                            submitValues
                         )
                         .then(res => {
                             console.log(res.status);
+                            setSubmitting(false);
                         })
                         .catch(err => {
-                            console.log(err);
+                            console.error(err);
                         });
                 }}
             >
@@ -66,6 +73,7 @@ const Signup = () => {
                             color='primary'
                             disabled={isSubmitting}
                             onClick={submitForm}
+                            type="submit"
                         >
                             Submit
                         </Button>
