@@ -52,7 +52,7 @@ const Signup = () => {
                 }}
             >
                 {({ submitForm, isSubmitting }) => (
-                    <Form className='user-entry'>
+                    <Form className='modal-box'>
                         <Field
                             component={TextField}
                             name='username'
@@ -72,7 +72,7 @@ const Signup = () => {
                             label='Confirm Password'
                             name='confirmPassword'
                         />
-                        {isSubmitting && <LinearProgress />}
+                            {isSubmitting && <LinearProgress />}
                         <br />
                         <Button
                             variant='contained'

@@ -19,6 +19,7 @@ const initialState = {
 };
 
 export default function MaterialUIPickers() {
+   
     const { moods } = React.useContext(SleepContext);
     const [state, setState] = React.useState(initialState);
     const [attempts, setAttempts] = React.useState(0);
@@ -43,8 +44,9 @@ export default function MaterialUIPickers() {
     }
 
     return (
+        <SleepContext.Provider>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" className="modal-box">
                 <Grid container direction="column">
                 
                     <Typography variant='h3'>New Entry</Typography>
@@ -138,5 +140,6 @@ export default function MaterialUIPickers() {
                 </Grid>
             </Container>
         </MuiPickersUtilsProvider>
+        </SleepContext.Provider>
     );
 }
