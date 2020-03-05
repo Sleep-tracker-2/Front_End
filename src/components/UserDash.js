@@ -15,10 +15,18 @@ import Fade from '@material-ui/core/Fade';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from "@material-ui/core/Button";
 
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+logoStyle : {
+        position: "fixed",
+        top: "10px",
+        left: "10px",
+        width: "13%"
+    },
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -34,6 +42,11 @@ const useStyles = makeStyles(theme => ({
         position: 'fixed',
         bottom: 20,
         right: 20
+    },
+    logoutButton: {
+        position: 'fixed',
+        top: 20,
+        right: 20
     }
 }));
 
@@ -44,9 +57,11 @@ const UserDash = () => {
     const classes = useStyles();
     const [newEntryModal, setNewEntryModal] = React.useState(false);
     return (
-        <>
-            <Paper maxWidth='md'>
+        <div style={{ backgroundColor: "#1b262c"}}>
+            <img src={require("../assets/ZLEEP.png")} className={classes.logoStyle}></img>
                 <Container maxWidth='md'>
+                    <Paper maxWidth='md'>
+                    <Typography variant="h1" style={{margin:"auto", textAlign:"center"}}>Sleep Tracker</Typography>
                     <SleepGraphContainer />
                     <List id='sleepList'>
                         {initialState.sleep.data.map(sleep => {
@@ -77,8 +92,8 @@ const UserDash = () => {
                             );
                         })}
                     </List>
+                    </Paper>
                 </Container>
-            </Paper>
             <Fab
                 className={classes.addButton}
                 color='primary'
@@ -87,6 +102,17 @@ const UserDash = () => {
             >
                 <AddIcon />
             </Fab>
+            <Button
+                style={{
+                    display: "flex", alignItems: "middle", backgroundColor:"#1b262c"
+                }}
+                className={classes.logoutButton}
+                color='secondary'
+                aria-label='logout'
+                //onClick={toggleModal}
+            >
+                {"Sign out "}<ExitToAppIcon />
+            </Button>
 
             <Modal
                 aria-labelledby='transition-modal-title'
@@ -106,7 +132,7 @@ const UserDash = () => {
                     </Paper>
                 </Fade>
             </Modal>
-        </>
+        </div>
     );
 };
 

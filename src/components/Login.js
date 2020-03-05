@@ -44,7 +44,7 @@ const Login = (props) => {
                             props.loginUser(res.data.user)
                             console.log("LOGIN", props)
 
-                            history.push('/redirect');
+                            history.push('/userdash');
                         })
                         .catch(err => {
                             setSubmitting(false)

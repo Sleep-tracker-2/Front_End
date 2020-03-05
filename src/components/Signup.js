@@ -46,6 +46,9 @@ const Signup = () => {
                             setSubmitting(false);
                             return submitValues;
                         })
+                        .then(vaules => {
+                            //TODO: Add in logic from Login here
+                        })
                         .catch(err => {
                             
                                 setSubmitting(false)
