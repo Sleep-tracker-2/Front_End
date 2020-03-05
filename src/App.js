@@ -9,6 +9,7 @@ import SleepGraphContainer from "./components/SleepGraphContainer";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import NewEntry from "./components/NewEntry";
+import UserDash from "./components/UserDash";
 
 const theme = createMuiTheme({
 	palette: {
@@ -29,9 +30,9 @@ function App() {
 			<Route exact path='/redirect' render={props => <Redirect to='/' />} />
 			<Route exact path='/login' render={(params) => <Splash {...params} page="login" />} />
 			<Route exact path='/signup' render={(params) => <Splash {...params} page="signup" />} />
-
 			<Route exact path='/sleep' render={(params) => <Splash {...params} page="sleep" />} />
 			<Route exact path='/new_entry' render={(params) => <Splash {...params} page="new_entry" />} />
+			<Route exact path='/userdash' render={props => <UserDash {...props} />} />
 
 			{
 				// <Footer />
