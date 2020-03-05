@@ -7,14 +7,14 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
 
-import { SleepContext } from "../contexts/SleepContext";
+import {connect} from 'react-redux'
 
-import { reducer, initialState } from "../reducers";
 
-const data = [];
-export default function SleepGraphContainer(props) {
-	const [state, dispatch] = useReducer(reducer, initialState);
 
+function SleepGraphContainer(props) {
+
+
+	console.log(props)
 
 	const [displayedPlots, setDisplayedPlots] = React.useState({
 		showHours: true,
@@ -29,17 +29,12 @@ export default function SleepGraphContainer(props) {
 	};
 
 	return (
-        <>
-		<SleepContext.Provider>
-			<div className='modal-box'>
-				<SleepGraph data={state.sleep} {...displayedPlots} />
+		
+			<div className='sleep-graph-container'>
+			
+			
+				<SleepGraph {...displayedPlots} />
 				<FormGroup row>
-					{/*    <FormControlLabel
-                    control={
-                        <Switch checked={displayedPlots.showHours} onChange={handleChange} value="showHours" name="showHours" color="primary"/>
-                    }
-                    label="Show Hours"
-                />*/}
 					<FormControlLabel
 						control={
 							<Switch
@@ -53,8 +48,19 @@ export default function SleepGraphContainer(props) {
 						label={displayedPlots.showMood ? "Showing Mood" : "Showing Hours"}
 					/>
 				</FormGroup>
+			
 			</div>
-		</SleepContext.Provider>
-        </>
+		
+        
 	);
 }
+
+const mapStateToProps = state => {
+	return {
+	  sleep: state.sleep
+	};
+  };
+  
+  export default connect(
+	mapStateToProps,
+  )(SleepGraphContainer);

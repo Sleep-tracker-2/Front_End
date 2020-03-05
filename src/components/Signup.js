@@ -44,22 +44,11 @@ const Signup = () => {
                             setSubmitting(false);
                             return submitValues;
                         })
-                        .then(values=>{
-                            console.log(values);
-                            axios
-                                .post(
-                                    'https://sleeptracker2.herokuapp.com/api/users/login',
-                                    values
-                                )
-                                .then(res => {
-                                    localStorage.setItem('token', res.data.token);
-                                    console.log(res)
-                                    history.push('/redirect');
-                                })
-                                .catch(console.error);
-                            }
-                        )
-                        .catch(console.error);
+                        .catch(err => {
+                            
+                                setSubmitting(false)
+                            
+                        });
                 }}
             >
                 {({ submitForm, isSubmitting }) => (
