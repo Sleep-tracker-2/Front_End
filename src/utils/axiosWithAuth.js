@@ -5,7 +5,7 @@ export const axiosWithAuth = () => {
 
 	return axios.create({
 		headers: {
-			Authorization: `${token}`
+			Authorization: token
 		},
 		baseURL: "https://sleeptracker2.herokuapp.com/api/"
 	});
