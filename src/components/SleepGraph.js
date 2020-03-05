@@ -1,16 +1,36 @@
 
-import React, { useContext, useState } from "react";
-
+import React from "react";
+import ReactDOM from "react-dom";
+import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar, VictoryTheme } from 'victory';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import {makeStyles} from "@material-ui/core/styles";
+import SleepDetail from "./SleepDetail";
 import {connect} from "react-redux"
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
-const moods = []
 
+const useStyles = makeStyles(theme => ({
+    modal: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid #000",
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3)
+    }
+}));
 
 function SleepGraph({showHours, showMood, sleep}) {
-    
-   console.log("SLEEPGRAPH", sleep);
-   
-    
+    const classes=useStyles();
+    function handleCloseModal(){
+        setDateModal(!dateModal);
+    }
+    const [dateModal, setDateModal]= React.useState(false);
     const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
     //const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
@@ -23,39 +43,113 @@ function SleepGraph({showHours, showMood, sleep}) {
         }
     }
     return (
-        <VictoryChart domainPadding={20}>
-            <VictoryAxis
-                tickValues={sleep.data.map((datum, idx) => idx + 1)}
-                tickFormat={sleep.data.map(datum => datum.day)}
-                label="Date"
-            />
-            <VictoryAxis
-                dependentAxis
-                domain={[0, graphHeight]}
-                label="Sleep (hrs)"
-            />
-            {showMood && <VictoryBar
-                data={sleep.data.map(({day, mood, hours}) => { 
-                    return { day: day, hours: hours, mood: mood * graphHeight / 4 }; 
-                })}
-                labels={sleep.data.map(({mood})=>sleep.moods[mood-1])}
+        <>
+            <VictoryChart
                 style={{
-                    data: {
-                        fill: ({datum})=> moodToColor(datum.mood, "dd"),
-                        stroke: ({datum}) => moodToColor(datum.mood, "ff"),
-                        strokeWidth: 1
-                    }
+
                 }}
-                x="day"
-                y="hours"
-            />}
-            {showHours &&<VictoryLine
-                data={sleep.data}
-                labels={showMood ? []: ({datum})=> `${datum.hours} hrs`}
-                x="day"
-                y="hours"
-            />}
-        </VictoryChart>
+                domainPadding={20}>
+                <VictoryAxis
+                    style={{
+                        axis: {
+                            fill: "#ffffff",
+                        },
+                        axisLabel: {
+                            fill: "#ffffff",
+                        },
+                        ticks: {
+                            fill: "#ffffff",
+                        },
+                        tickLabels: {
+                            fill: "#ffffff",
+                        },
+                    }}
+                    tickValues={sleep.data.map((datum, idx) => idx + 1)}
+                    tickFormat={sleep.data.map(datum => datum.day)}
+                    label="Date"
+                />
+                <VictoryAxis
+                    style={{
+                        axis: {
+                            fill: "#ffffff",
+                        },
+                        axisLabel: {
+                            fill: "#ffffff",
+                        },
+                        ticks: {
+                            fill: "#ffffff",
+                        },
+                        tickLabels: {
+                            fill: "#ffffff",
+                        },
+                    }}
+                    dependentAxis
+                    domain={[0, graphHeight]}
+                    label="Sleep (hrs)"
+                />
+                {/*<VictoryAxis
+                dependentAxis
+                tickValues={[
+                    graphHeight / 4,
+                    graphHeight / 2,
+                    graphHeight * 3 / 4,
+                    graphHeight
+                ]}
+                tickFormat={moods}
+                orientation="right"
+                label="Mood"
+            />*/}
+                {showMood && <VictoryBar
+                    data={sleep.data.map(({ day, mood, hours }) => {
+                        return { day: day, hours: hours, mood: mood * graphHeight / 4 };
+                    })}
+                    labels={sleep.data.map(({ mood }) => sleep.moods[mood - 1])}
+                    style={{
+                        data: {
+                            fill: "#ffffff00",//({datum})=> moodToColor(datum.mood, "dd"),
+                            stroke: "#ffffff00",//({datum}) => moodToColor(datum.mood, "ff"),
+                            strokeWidth: 1
+                        }
+                    }}
+                    x="day"
+                    y="hours"
+                />}
+                {showHours && <VictoryLine
+                    style={{
+                        data: {
+                            stroke: "#ffffff",
+                        },
+                        labels: {
+                            fill: "#ffffff",
+                        },
+                    }}
+                    data={sleep.data}
+                    labels={showMood ? [] : ({ datum }) => `${datum.hours} hrs`}
+                    x="day"
+                    y="hours"
+                />}
+            </VictoryChart>
+
+            <Modal
+                aria-labelledby='transition-modal-title'
+                aria-describedby='transition-modal-description'
+                className={classes.modal}
+                open={dateModal}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500
+                }}
+            >
+                <Fade in={dateModal}>
+                    <Paper elevation={3}>
+                        <SleepDetail />
+                    </Paper>
+                </Fade>
+            </Modal>
+            <Button onClick={handleCloseModal} >Test!</Button>
+        </>
     );
 }
 
