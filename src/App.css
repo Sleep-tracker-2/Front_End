@@ -57,15 +57,15 @@
   background-color: #555555; */
 }
 
-#sleep-list {
+#sleepList {
 	display:flex;
 	flex-direction: column;
 	align-content: space-around;
 }
 
-#sleep-list > .sleep-list-items {
+#sleepList > .sleepListItems {
 	display: flex;
-	justify-content: space-between !important;
+	justify-content: space-around !important;
 }
 
 .user-entry-fields {
