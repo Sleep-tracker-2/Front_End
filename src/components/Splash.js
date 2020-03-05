@@ -3,8 +3,25 @@ import { Container, Button, ButtonGroup } from "@material-ui/core";
 import { MemoryRouter as Router } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
+import SleepTrackerButtons from "./SleepTrackerButtons";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { orange } from "@material-ui/core/colors";
 
-function Splash() {
+
+const theme = createMuiTheme({
+	palette: {
+		type: 'dark',
+		primary: {
+			main: '#0f4c75',
+		},
+		secondary: {
+			main: '#bbe1fa',
+		}
+	},
+});
+
+function Splash({ page }) {
 	const [token, setToken] = useState(localStorage.getItem("token"));
 
 	useEffect(() => {
@@ -35,13 +52,19 @@ function Splash() {
 	return (
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
-			{!token ? (
-				<AuthButtons buttonStyle={buttonStyle} />
-			) : (
-				<Button component={LinkBehavior} style={buttonStyle}>
-					Track your Sleep &gt;&gt;
-				</Button>
-			)}
+			<ThemeProvider theme={theme} >
+				{!token ? (
+					<AuthButtons buttonStyle={buttonStyle} page={page} />
+				) : (
+						<SleepTrackerButtons buttonStyle={buttonStyle} page={page} />
+						/*
+						<Button component={LinkBehavior} style={buttonStyle}>
+							Track your Sleep &gt;&gt;
+						</Button>*/
+					)
+
+				}
+			</ThemeProvider>
 		</div>
 	);
 }

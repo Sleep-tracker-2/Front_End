@@ -45,17 +45,18 @@
 	font-size: 45px;
 }
 
-.user-entry {
+.modal-box {
   display: flex;
   align-content: flex-end;
   flex-direction: column;
   justify-content:center;
   padding: 55px;
-  border: 2px solid darkgrey;
+  /* border: 2px solid darkgrey;
   border-radius: 15px;
-  height: 130px;
-  background-color: #555555;
+   height: 130px; 
+  background-color: #555555; */
 }
+
 
 .user-entry-fields {
   display: flex;
