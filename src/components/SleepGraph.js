@@ -108,6 +108,20 @@ function SleepGraph({ sleep, showHours, showMood }) {
                 orientation="right"
                 label="Mood"
             />*/}
+                {showHours && <VictoryLine
+                    style={{
+                        data: {
+                            stroke: "#ffffff",
+                        },
+                        labels: {
+                            fill: "#ffffff",
+                        },
+                    }}
+                    data={sleep.data}
+                    //labels={showMood ? [] : ({ datum }) => `${datum.hours} hrs ${/*hasComment ? "" : */"💬"}`}
+                    x="day"
+                    y="hours"
+                />}
                 {<VictoryBar
                     events={[{
                         target: "labels",
@@ -132,20 +146,6 @@ function SleepGraph({ sleep, showHours, showMood }) {
                     x="day"
                     y="hours"
                 />}
-                {showHours && <VictoryLine
-                    style={{
-                        data: {
-                            stroke: "#ffffff",
-                        },
-                        labels: {
-                            fill: "#ffffff",
-                        },
-                    }}
-                    data={sleep.data}
-                    //labels={showMood ? [] : ({ datum }) => `${datum.hours} hrs ${/*hasComment ? "" : */"💬"}`}
-                x="day"
-                y="hours"
-            />}
             </VictoryChart>
 
             <Modal
