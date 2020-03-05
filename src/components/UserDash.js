@@ -59,7 +59,7 @@ const UserDash = () => {
     return (
         <div style={{ backgroundColor: "#1b262c"}}>
             <img src={require("../assets/ZLEEP.png")} className={classes.logoStyle}></img>
-                <Container maxWidth='md'>
+                <Container maxWidth='md' style={{padding:"50px 0px"}}>
                     <Paper maxWidth='md'>
                     <Typography variant="h1" style={{margin:"auto", textAlign:"center"}}>Sleep Tracker</Typography>
                     <SleepGraphContainer />
