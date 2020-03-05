@@ -4,22 +4,9 @@ import { MemoryRouter as Router } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
 import SleepTrackerButtons from "./SleepTrackerButtons";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
-import { orange } from "@material-ui/core/colors";
 
 
-const theme = createMuiTheme({
-	palette: {
-		type: 'dark',
-		primary: {
-			main: '#0f4c75',
-		},
-		secondary: {
-			main: '#bbe1fa',
-		}
-	},
-});
+
 
 function Splash({ page }) {
 	const [token, setToken] = useState(localStorage.getItem("token"));
@@ -52,7 +39,7 @@ function Splash({ page }) {
 	return (
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
-			<ThemeProvider theme={theme} >
+
 				{!token ? (
 					<AuthButtons buttonStyle={buttonStyle} page={page} />
 				) : (
@@ -64,7 +51,7 @@ function Splash({ page }) {
 					)
 
 				}
-			</ThemeProvider>
+
 		</div>
 	);
 }
