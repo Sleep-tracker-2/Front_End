@@ -6,6 +6,8 @@ import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import axios from 'axios';
 
+// import axios from "../utils/axiosWithAuth"
+
 const Signup = () => {
     const history = useHistory();
     return (

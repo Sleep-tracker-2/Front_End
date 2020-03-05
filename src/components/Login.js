@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import {axiosWithAuth} from '../utils/axiosWithAuth'
+
 import {loginUser} from '../actions';
 
 const Login = (props) => {
@@ -30,13 +32,14 @@ const Login = (props) => {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    axios
+                    axiosWithAuth()
                         .post(
-                            'https://sleeptracker2.herokuapp.com/api/users/login',
+                            'users/login',
                             values
                         )
                         .then(res => {
                             localStorage.setItem('token', res.data.token);
+                            localStorage.setItem('userID', res.data.user.id);
                             console.log(res)
                             props.loginUser(res.data.user)
                             console.log("LOGIN", props)

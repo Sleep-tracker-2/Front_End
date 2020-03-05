@@ -1,3 +1,5 @@
+import {FETCH_DATA_FAIL, FETCH_DATA_START, FETCH_DATA_SUCCESS, LOGIN_USER} from '../actions'
+
 export const initialState = {
 	sleep: {
 		data: [
@@ -17,7 +19,9 @@ export const initialState = {
 		username: "JohnDoe2020",
 		average_sleep: null,
 		token: null
-	}
+	},
+	err: "",
+	isFetching: false
 };
 
 export const reducer = (state = initialState, action) => {
@@ -33,11 +37,30 @@ export const reducer = (state = initialState, action) => {
 				}
 		
 			};
-		case "LOGIN_USER" :
+		case LOGIN_USER:
 			return {
 				...state,
 				user: action.payload
 				
+			}
+		case FETCH_DATA_START:
+			return {
+				...state,
+				isFetching: true
+			}
+		case FETCH_DATA_SUCCESS:
+			return {
+				...state,
+				isFetching: false,
+				sleep: {
+					...state.sleep,
+					data: action.payload
+				}
+			}
+		case FETCH_DATA_FAIL:
+			return {
+				...state,
+				isFetching: false,
 			}
 		default:
 			return state;

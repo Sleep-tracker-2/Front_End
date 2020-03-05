@@ -14,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import SleepDetail from "./SleepDetail";
 
-
 const useStyles = makeStyles(theme => ({
     modal: {
         display: "flex",
@@ -51,7 +50,6 @@ function SleepGraph({ sleep, showHours, showMood }) {
         }
     }
     return (
-
         <>
             <VictoryChart
                 style={{
@@ -167,7 +165,6 @@ function SleepGraph({ sleep, showHours, showMood }) {
                 </Fade>
             </Modal>
         </>
-
     );
 }
 
