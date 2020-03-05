@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 
 import {connect} from "react-redux"
 import ReactDOM from "react-dom";
-import { SleepContext } from "../contexts/SleepContext";
+//import { SleepContext } from "../contextsA/SleepContext";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar, VictoryTheme } from 'victory';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -118,7 +118,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
                     data={sleep.data.map(({ day, mood, hours }) => {
                         return { day: day, hasComment: true, hours: hours, mood: mood * graphHeight / 4 };
                     })}
-                    labels={sleep.data.map(({ mood, hasComment, hours }) => showMood ? moods[mood - 1] + `${hasComment ? "" : "💬"}` : `${hours} ${/*hasComment ? "" : */"💬"}`)}
+                    labels={sleep.data.map(({ mood, hasComment, hours }) => showMood ? sleep.moods[mood - 1] + `${hasComment ? "" : "💬"}` : `${hours} ${/*hasComment ? "" : */"💬"}`)}
                     style={{
                         data: {
                             fill: "#ffffff00",//({datum})=> moodToColor(datum.mood, "dd"),
