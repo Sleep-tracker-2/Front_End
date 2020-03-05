@@ -68,7 +68,7 @@ function SleepTrackerButtons({ buttonStyle, page }) {
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                    timeout: 500
+                    timeout: 100
                 }}
             >
                 <Fade in={entryModal}>
@@ -88,7 +88,7 @@ function SleepTrackerButtons({ buttonStyle, page }) {
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                    timeout: 500
+                    timeout: 100
                 }}
             >
                 <Fade in={graphModal}>

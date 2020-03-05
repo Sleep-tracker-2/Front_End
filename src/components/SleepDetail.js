@@ -1,2 +1,12 @@
 import React from "react";
-export default function SleepDetail(){return <div />;}
+import Typography from "@material-ui/core/Typography";
+import Container from '@material-ui/core/Container';
+export default function SleepDetail(props){
+    console.log(props);
+return (
+    <Container>
+    <Typography variant="h4">{props.day}</Typography>
+    <Typography variant="p">{"Hours: "+props.hours}</Typography>
+</Container>
+);
+}
