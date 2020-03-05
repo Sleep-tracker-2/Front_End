@@ -1,13 +1,15 @@
 
 import React, { useContext, useState } from "react";
-import ReactDOM from "react-dom";
-import {SleepContext} from "../contexts/SleepContext";
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
 
-export default function SleepGraph({data, showHours, showMood}) {
-    const sleep = useContext(SleepContext)
-    const moods = sleep.moods
-    console.log(sleep);
+import {connect} from "react-redux"
+import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
+const moods = []
+
+
+function SleepGraph({showHours, showMood, sleep}) {
+    
+   console.log("SLEEPGRAPH", sleep);
+   
     
     const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
     //const {moods} = React.useContext(SleepContext);
@@ -23,8 +25,8 @@ export default function SleepGraph({data, showHours, showMood}) {
     return (
         <VictoryChart domainPadding={20}>
             <VictoryAxis
-                tickValues={data.map((datum, idx) => idx + 1)}
-                tickFormat={data.map(datum => datum.day)}
+                tickValues={sleep.data.map((datum, idx) => idx + 1)}
+                tickFormat={sleep.data.map(datum => datum.day)}
                 label="Date"
             />
             <VictoryAxis
@@ -32,23 +34,11 @@ export default function SleepGraph({data, showHours, showMood}) {
                 domain={[0, graphHeight]}
                 label="Sleep (hrs)"
             />
-            {/*<VictoryAxis
-                dependentAxis
-                tickValues={[
-                    graphHeight / 4,
-                    graphHeight / 2,
-                    graphHeight * 3 / 4,
-                    graphHeight
-                ]}
-                tickFormat={moods}
-                orientation="right"
-                label="Mood"
-            />*/}
             {showMood && <VictoryBar
-                data={data.map(({day, mood, hours}) => { 
+                data={sleep.data.map(({day, mood, hours}) => { 
                     return { day: day, hours: hours, mood: mood * graphHeight / 4 }; 
                 })}
-                labels={data.map(({mood})=>moods[mood-1])}
+                labels={sleep.data.map(({mood})=>sleep.moods[mood-1])}
                 style={{
                     data: {
                         fill: ({datum})=> moodToColor(datum.mood, "dd"),
@@ -60,7 +50,7 @@ export default function SleepGraph({data, showHours, showMood}) {
                 y="hours"
             />}
             {showHours &&<VictoryLine
-                data={data}
+                data={sleep.data}
                 labels={showMood ? []: ({datum})=> `${datum.hours} hrs`}
                 x="day"
                 y="hours"
@@ -68,3 +58,13 @@ export default function SleepGraph({data, showHours, showMood}) {
         </VictoryChart>
     );
 }
+
+const mapStateToProps = state => {
+	return {
+	  sleep: state.sleep
+	};
+  };
+  
+  export default connect(
+	mapStateToProps,
+  )(SleepGraph);

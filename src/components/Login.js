@@ -4,9 +4,15 @@ import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-const Login = () => {
+import {loginUser} from '../actions';
+
+const Login = (props) => {
     const history = useHistory();
+
+    console.log(props)
+    
     return (
         <>
             <Formik
@@ -32,6 +38,9 @@ const Login = () => {
                         .then(res => {
                             localStorage.setItem('token', res.data.token);
                             console.log(res)
+                            props.loginUser(res.data.user)
+                            console.log("LOGIN", props)
+
                             history.push('/redirect');
                         })
                         .catch(err => {
@@ -75,4 +84,13 @@ const Login = () => {
     );
 };
 
-export default Login;
+const mapStateToProps = state => {
+	return {
+	  user: state.user
+	};
+  };
+  
+  export default connect(
+    mapStateToProps,
+    {loginUser}
+  )(Login);

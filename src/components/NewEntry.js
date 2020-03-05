@@ -1,16 +1,17 @@
 import 'date-fns';
 import 'typeface-roboto';
-import React from 'react';
-import { SleepContext } from "../contexts/SleepContext";
+import React, {useReducer} from 'react';
+import { reducer, initialState } from "../reducers";
 import { Grid, Container, Typography, TextField, Select, MenuItem, InputLabel, Button, FormControl } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from 'axios'
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-const initialState = {
+const initialForm = {
     mood: '',
     date: null,
     start_time: null,
@@ -18,33 +19,38 @@ const initialState = {
     comment: ""
 };
 
+const moods = []
+
 export default function MaterialUIPickers() {
+    
    
-    const { moods } = React.useContext(SleepContext);
-    const [state, setState] = React.useState(initialState);
+    const [formState, setFormState] = React.useState(initialForm);
     const [attempts, setAttempts] = React.useState(0);
 
+    
+    
+
     const handleChangePicker = name => value => {
-        setState({ ...state, [name]: value });
+        setFormState({ ...formState, [name]: value });
     };
     const handleChangeEvent = event => {
-        setState({ ...state, [event.target.name]: event.target.value });
+        setFormState({ ...formState, [event.target.name]: event.target.value });
     }
     const resetForm = () => {
-        setState(initialState);
+        setFormState(initialForm);
     }
     const handleSubmit = () => {
         setAttempts(attempts + 1);
-        for (const item in state) {
-            if (!state[item] && item !== 'comment') return;
+        for (const item in formState) {
+            if (!formState[item] && item !== 'comment') return;
         }
-        console.log("Submitted!");
+        // axios.post()
         setAttempts(0);
         resetForm();
     }
 
     return (
-        <SleepContext.Provider>
+       
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Container maxWidth="lg" className="modal-box" style={{width:"450px"}}>
                 <Grid container direction="column">
@@ -52,7 +58,7 @@ export default function MaterialUIPickers() {
                     <Typography variant='h3'>New Entry</Typography>
                     {/*   <Grid container justify="space-between" alignItems="baseline"> */}
                     <KeyboardDatePicker
-                        error={!state.date && attempts > 0}
+                        error={!formState.date && attempts > 0}
                         required
                         initialFocusedDate={new Date(Date.now() - 1000 * 3600 * 24).toDateString()}
                         autoOk={true}
@@ -63,39 +69,39 @@ export default function MaterialUIPickers() {
                         margin="normal"
                         id="date-picker-inline"
                         label="What night is this for?"
-                        value={state.date}
+                        value={formState.date}
                         onChange={handleChangePicker('date')}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
 
                     />
-                    {/* <TextField InputProps={{ readOnly: true }} value={`${state.hours} hours of sleep`} align="center" />
+                    {/* <TextField InputProps={{ readOnly: true }} value={`${formState.hours} hours of sleep`} align="center" />
                     </Grid>*/}
                     {/* <Grid container justify="space-between" alignItems="baseline">*/}
                     <KeyboardTimePicker
-                        error={!state.start_time && attempts > 0}
+                        error={!formState.start_time && attempts > 0}
                         autoOk={true}
                         required
                         variant="inline"
                         margin="normal"
                         id="time-picker"
                         label="What time did you go to bed?"
-                        value={state.start_time}
+                        value={formState.start_time}
                         onChange={handleChangePicker('start_time')}
                         KeyboardButtonProps={{
                             'aria-label': 'change start time',
                         }}
                     />
                     <KeyboardTimePicker
-                        error={!state.end_time && attempts > 0}
+                        error={!formState.end_time && attempts > 0}
                         autoOk={true}
                         required
                         variant="inline"
                         margin="normal"
                         id="time-picker"
                         label="What time did you wake up?"
-                        value={state.end_time}
+                        value={formState.end_time}
                         onChange={handleChangePicker('end_time')}
                         KeyboardButtonProps={{
                             'aria-label': 'change time',
@@ -104,14 +110,14 @@ export default function MaterialUIPickers() {
                     {/* </Grid> */}
                     <FormControl>
                         <InputLabel
-                            error={!state.mood && attempts > 0} 
+                            error={!formState.mood && attempts > 0} 
                          id="mood-select-label">How are you feeling?</InputLabel>
                         <Select
-                            error={!state.mood && attempts > 0}
+                            error={!formState.mood && attempts > 0}
                             required
                             abelId="mood-select-label"
                             name="mood"
-                            value={state.mood}
+                            value={formState.mood}
                             onChange={handleChangeEvent}
                         >
                             <MenuItem value={4}>{moods[3]}</MenuItem>
@@ -123,7 +129,7 @@ export default function MaterialUIPickers() {
                    
                     <TextField
                         label="Notes on sleep pattern, dreams, epiphanies ..."
-                        value={state.comment}
+                        value={formState.comment}
                         name="comment"
                         onChange={handleChangeEvent}
                     />
@@ -144,6 +150,6 @@ export default function MaterialUIPickers() {
                 </Grid>
             </Container>
         </MuiPickersUtilsProvider>
-        </SleepContext.Provider>
+        
     );
 }

@@ -13,8 +13,9 @@ export const initialState = {
 	
 	user: {
 		id: 0,
-		dateCreated: "1/1/2000",
+		account_created: "1/1/2000",
 		username: "JohnDoe2020",
+		average_sleep: null,
 		token: null
 	}
 };
@@ -23,14 +24,21 @@ export const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case "ADD_ENTRY":
 			return {
-				...initialState,
-				sleep: {...initialState.sleep,
+				...state,
+				sleep: {...state.sleep,
 				data: [
-					...initialState.sleep.data,
+					...state.sleep.data,
 					...action.payload
 				]
 				}
+		
 			};
+		case "LOGIN_USER" :
+			return {
+				...state,
+				user: action.payload
+				
+			}
 		default:
 			return state;
 	}
