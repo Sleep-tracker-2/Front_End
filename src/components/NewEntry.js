@@ -1,6 +1,7 @@
 import 'date-fns';
 import 'typeface-roboto';
 import React, {useReducer} from 'react';
+import { connect } from "react-redux"
 import { reducer, initialState } from "../reducers";
 import { Grid, Container, Typography, TextField, Select, MenuItem, InputLabel, Button, FormControl } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -19,9 +20,8 @@ const initialForm = {
     comment: ""
 };
 
-const moods = []
 
-export default function MaterialUIPickers() {
+function NewEntryForm({sleep}) {
     
    
     const [formState, setFormState] = React.useState(initialForm);
@@ -120,10 +120,10 @@ export default function MaterialUIPickers() {
                             value={formState.mood}
                             onChange={handleChangeEvent}
                         >
-                            <MenuItem value={4}>{moods[3]}</MenuItem>
-                            <MenuItem value={3}>{moods[2]}</MenuItem>
-                            <MenuItem value={2}>{moods[1]}</MenuItem>
-                            <MenuItem value={1}>{moods[0]}</MenuItem>
+                            <MenuItem value={4}>{sleep.moods[3]}</MenuItem>
+                            <MenuItem value={3}>{sleep.moods[2]}</MenuItem>
+                            <MenuItem value={2}>{sleep.moods[1]}</MenuItem>
+                            <MenuItem value={1}>{sleep.moods[0]}</MenuItem>
                         </Select>
                     </FormControl>
                    
@@ -153,3 +153,12 @@ export default function MaterialUIPickers() {
         
     );
 }
+const mapStateToProps = state => {
+    return {
+        sleep: state.sleep
+    };
+};
+
+export default connect(
+    mapStateToProps,
+)(NewEntryForm);
