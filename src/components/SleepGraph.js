@@ -39,7 +39,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
     }
     const [dateModal, setDateModal]= React.useState(false);
 
-    const graphHeight = 10;//sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+    const graphHeight = sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0);
     //const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
         switch (mood) {
@@ -61,7 +61,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
                 <VictoryAxis
                     style={{
                         axis: {
-                            fill: "#ffffff",
+                            stroke: "#ffffff",
                         },
                         axisLabel: {
                             fill: "#ffffff",
@@ -80,7 +80,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
                 <VictoryAxis
                     style={{
                         axis: {
-                            fill: "#ffffff",
+                            stroke: "#ffffff",
                         },
                         axisLabel: {
                             fill: "#ffffff",
