@@ -11,6 +11,7 @@ import Signup from "./components/Signup";
 import NewEntry from "./components/NewEntry";
 import UserDash from "./components/UserDash";
 
+
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark',
@@ -22,7 +23,6 @@ const theme = createMuiTheme({
 		}
 	},
 });
-
 
 
 function App() {
