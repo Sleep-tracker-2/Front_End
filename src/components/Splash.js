@@ -22,6 +22,12 @@ function Splash({ page }) {
 		color: "black",
 		flexDirection: "column"
 	};
+	const logoStyle = {
+		position: "fixed",
+		top: "10px",
+		left: "10px",
+		width: "20%"
+	};
 
 	const LinkBehavior = React.forwardRef((props, ref) => (
 		<RouterLink ref={ref} to='/sleep' {...props} />
@@ -33,6 +39,8 @@ function Splash({ page }) {
 	};
 
 	return (
+		<>
+		<img src={require("../assets/ZLEEP.png")} style={logoStyle}></img>
 		<div style={splashStyle} className='splash'>
 			<h1 className='splashTitle'>Sleep is Good! Get it!</h1>
 
@@ -49,6 +57,7 @@ function Splash({ page }) {
 				}
 
 		</div>
+		</>
 	);
 }
 
