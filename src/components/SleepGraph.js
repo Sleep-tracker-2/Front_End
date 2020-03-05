@@ -1,5 +1,8 @@
 
-import React from "react";
+
+import React, { useContext, useState } from "react";
+
+import {connect} from "react-redux"
 import ReactDOM from "react-dom";
 import { SleepContext } from "../contexts/SleepContext";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar, VictoryTheme } from 'victory';
@@ -10,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import SleepDetail from "./SleepDetail";
-const moods = ["😡", "😔", "😐", "😄"]
+
 
 const useStyles = makeStyles(theme => ({
     modal: {
@@ -26,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function SleepGraph({ data, showHours, showMood }) {
+function SleepGraph({ sleep, showHours, showMood }) {
+   console.log("SLEEPGRAPH", sleep);
     const [selectedData, setSelectedData] = React.useState({});
     const classes=useStyles();
     function handleToggleModal(data){
@@ -34,7 +38,8 @@ export default function SleepGraph({ data, showHours, showMood }) {
         setDateModal(!dateModal);
     }
     const [dateModal, setDateModal]= React.useState(false);
-    const graphHeight = 10;//data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+
+    const graphHeight = 10;//sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0);
     //const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
         switch (mood) {
@@ -46,6 +51,7 @@ export default function SleepGraph({ data, showHours, showMood }) {
         }
     }
     return (
+
         <>
             <VictoryChart
                 style={{
@@ -67,8 +73,8 @@ export default function SleepGraph({ data, showHours, showMood }) {
                             fill: "#ffffff",
                         },
                     }}
-                    tickValues={data.map((datum, idx) => idx + 1)}
-                    tickFormat={data.map(datum => datum.day)}
+                    tickValues={sleep.data.map((datum, idx) => idx + 1)}
+                    tickFormat={sleep.data.map(datum => datum.day)}
                     label="Date"
                 />
                 <VictoryAxis
@@ -109,10 +115,10 @@ export default function SleepGraph({ data, showHours, showMood }) {
                             onClick: () => {return [{ target: "data", mutation: (props) =>handleToggleModal(props.datum) }];}
                         }
                     }]}
-                    data={data.map(({ day, mood, hours }) => {
+                    data={sleep.data.map(({ day, mood, hours }) => {
                         return { day: day, hasComment: true, hours: hours, mood: mood * graphHeight / 4 };
                     })}
-                    labels={data.map(({ mood, hasComment, hours }) => showMood ? moods[mood - 1] + `${hasComment ? "" : "💬"}` : `${hours} ${/*hasComment ? "" : */"💬"}`)}
+                    labels={sleep.data.map(({ mood, hasComment, hours }) => showMood ? moods[mood - 1] + `${hasComment ? "" : "💬"}` : `${hours} ${/*hasComment ? "" : */"💬"}`)}
                     style={{
                         data: {
                             fill: "#ffffff00",//({datum})=> moodToColor(datum.mood, "dd"),
@@ -135,7 +141,7 @@ export default function SleepGraph({ data, showHours, showMood }) {
                             fill: "#ffffff",
                         },
                     }}
-                    data={data}
+                    data={sleep.data}
                     //labels={showMood ? [] : ({ datum }) => `${datum.hours} hrs ${/*hasComment ? "" : */"💬"}`}
                 x="day"
                 y="hours"
@@ -161,5 +167,16 @@ export default function SleepGraph({ data, showHours, showMood }) {
                 </Fade>
             </Modal>
         </>
+
     );
 }
+
+const mapStateToProps = state => {
+	return {
+	  sleep: state.sleep
+	};
+  };
+  
+  export default connect(
+	mapStateToProps,
+  )(SleepGraph);

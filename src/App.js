@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import NewEntry from "./components/NewEntry";
 
+
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark',
@@ -22,11 +23,13 @@ const theme = createMuiTheme({
 	},
 });
 
+
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<Route exact path='/' component={Splash} />
 			<Route exact path='/redirect' render={props => <Redirect to='/' />} />
+
 			<Route exact path='/login' render={(params) => <Splash {...params} page="login" />} />
 			<Route exact path='/signup' render={(params) => <Splash {...params} page="signup" />} />
 
