@@ -8,7 +8,12 @@ export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
 export const FETCH_DATA_FAIL = 'FETCH_DATA_FAIL';
 
-const userID = localStorage.getItem('userID')
+const user = JSON.parse(localStorage.getItem('user'))
+
+const userID = user?.id;
+
+console.log("USER", user?.id);
+
 
 export function loginUser(user) {
   return {

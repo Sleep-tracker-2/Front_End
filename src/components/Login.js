@@ -39,12 +39,15 @@ const Login = (props) => {
                         )
                         .then(res => {
                             localStorage.setItem('token', res.data.token);
-                            localStorage.setItem('userID', res.data.user.id);
+                            localStorage.setItem('user', JSON.stringify(res.data.user));
                             console.log(res)
                             props.loginUser(res.data.user)
                             console.log("LOGIN", props)
 
-                            history.push('/userdash');
+                            setTimeout(() => {
+                                history.push('/userdash');
+                            }, 1000)
+                            
                         })
                         .catch(err => {
                             setSubmitting(false)

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Redirect } from "react-router-dom";
 import Splash from "./components/Splash";
@@ -10,6 +10,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import NewEntry from "./components/NewEntry";
 import UserDash from "./components/UserDash";
+import {loginUser} from './actions'
+import { connect } from "react-redux";
 
 
 const theme = createMuiTheme({
@@ -25,7 +27,18 @@ const theme = createMuiTheme({
 });
 
 
-function App() {
+function App(props) {
+
+	useEffect(() => {
+		const user = localStorage.getItem('user');
+
+		if (user) {
+			props.loginUser(JSON.parse(user))
+		}
+
+		
+	}, [])
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Route exact path='/' component={Splash} />
@@ -44,4 +57,14 @@ function App() {
 	);
 }
 
-export default App;
+const mapStateToProps = state => {
+	return {
+	  user: state.user
+	};
+  };
+  
+  export default connect(
+    mapStateToProps,
+    {loginUser}
+  )(App);
+
