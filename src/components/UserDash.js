@@ -8,10 +8,12 @@ import {
     Paper,
     Typography
 } from '@material-ui/core';
-import { initialState } from '../reducers';
+
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Typograhpy from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -21,10 +23,10 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
-import {logoutUser} from '../actions'
+import { logoutUser } from '../actions'
 
 const useStyles = makeStyles(theme => ({
-logoStyle : {
+    logoStyle: {
         position: "fixed",
         top: "10px",
         left: "10px",
@@ -60,7 +62,7 @@ function UserDash(props) {
         setNewEntryModal(!newEntryModal);
     }
     const classes = useStyles();
-    const [newEntryModal, setNewEntryModal] = React.useState(false);
+    const [newEntryModal, setNewEntryModal] = React.useState(!props.sleep.data[0]);
     const history = useHistory()
 
     function handleLogOut() {
@@ -69,14 +71,15 @@ function UserDash(props) {
         history.push('/');
     }
     return (
-        <div style={{ backgroundColor: "#1b262c"}}>
+        <div style={{ backgroundColor: "#1b262c" }}>
             <img src={require("../assets/ZLEEP.png")} className={classes.logoStyle}></img>
-                <Container maxWidth='md' style={{padding:"50px 0px"}}>
-                    <Paper maxWidth='md'>
-                    <Typography variant="h1" style={{margin:"auto", textAlign:"center"}}>Sleep Tracker</Typography>
+            <Container maxWidth='md' style={{ padding: "50px 0px" }}>
+                <Paper maxWidth='md'>
+                    <Typography variant="h1" style={{ margin: "auto", textAlign: "center" }}>Sleep Tracker</Typography>
+                    <Typograhpy variant="h6">Click on an entry in the graph for more information!</Typograhpy>
                     <SleepGraphContainer />
-                    <List id='sleepList'>
-                        {initialState.sleep.data.map(sleep => {
+                    {/*<List id='sleepList'>
+                        {props.sleep.data.map(sleep => {
                             return (
                                 <ListItem
                                     style={{ justifyContent: 'space-around' }}
@@ -103,9 +106,19 @@ function UserDash(props) {
                                 </ListItem>
                             );
                         })}
-                    </List>
-                    </Paper>
-                </Container>
+                    </List>*/}
+                    {props.sleep.data.length > 0 &&
+                        <>
+                            <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
+                            <Grid container direction="column">
+                                <Grid item><Typograhpy variant="h6">{`Average sleep: ${Math.round(props.sleep.data.reduce((ac, val) => ac + val.hours, 0) / props.sleep.data.length)} hours`}
+                                </Typograhpy></Grid>
+                                <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(props.sleep.data.reduce((ac, val) => ac + val.mood, 0) / props.sleep.data.length) - 1]}`}
+                                </Typograhpy></Grid>
+                            </Grid>
+                        </>}
+                </Paper>
+            </Container>
             <Fab
                 className={classes.addButton}
                 color='primary'
@@ -116,7 +129,7 @@ function UserDash(props) {
             </Fab>
             <Button
                 style={{
-                    display: "flex", alignItems: "middle", backgroundColor:"#1b262c"
+                    display: "flex", alignItems: "middle", backgroundColor: "#1b262c"
                 }}
                 className={classes.logoutButton}
                 color='secondary'
@@ -149,14 +162,15 @@ function UserDash(props) {
 };
 
 const mapStateToProps = state => {
-	return {
-	  user: state.user
-	};
-  };
-  
-  export default connect(
+    return {
+        user: state.user,
+        sleep: state.sleep
+    };
+};
+
+export default connect(
     mapStateToProps,
-    {logoutUser}
-  )(UserDash);
+    { logoutUser }
+)(UserDash);
 
 // export default UserDash
