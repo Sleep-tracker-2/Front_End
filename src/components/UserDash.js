@@ -19,7 +19,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from "@material-ui/core/Button";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
+import {logoutUser} from '../actions'
 
 const useStyles = makeStyles(theme => ({
 logoStyle : {
@@ -51,17 +53,21 @@ logoStyle : {
     }
 }));
 
-function handleLogOut() {
-    localStorage.clear();
-    // axiosWithAuth().get(/users/logout)
-}
 
-const UserDash = () => {
+
+function UserDash(props) {
     function toggleModal() {
         setNewEntryModal(!newEntryModal);
     }
     const classes = useStyles();
     const [newEntryModal, setNewEntryModal] = React.useState(false);
+    const history = useHistory()
+
+    function handleLogOut() {
+        localStorage.clear();
+        props.logoutUser()
+        history.push('/');
+    }
     return (
         <div style={{ backgroundColor: "#1b262c"}}>
             <img src={require("../assets/ZLEEP.png")} className={classes.logoStyle}></img>
@@ -115,7 +121,7 @@ const UserDash = () => {
                 className={classes.logoutButton}
                 color='secondary'
                 aria-label='logout'
-                //onClick={toggleModal}
+                onClick={handleLogOut}
             >
                 {"Sign out "}<ExitToAppIcon />
             </Button>
@@ -142,4 +148,15 @@ const UserDash = () => {
     );
 };
 
-export default UserDash;
+const mapStateToProps = state => {
+	return {
+	  user: state.user
+	};
+  };
+  
+  export default connect(
+    mapStateToProps,
+    {logoutUser}
+  )(UserDash);
+
+// export default UserDash

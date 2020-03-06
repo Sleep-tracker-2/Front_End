@@ -1,14 +1,38 @@
-import {FETCH_DATA_FAIL, FETCH_DATA_START, FETCH_DATA_SUCCESS, LOGIN_USER} from '../actions'
+import {FETCH_DATA_FAIL, FETCH_DATA_START, FETCH_DATA_SUCCESS, LOGIN_USER, LOGOUT_USER} from '../actions'
 
 export const initialState = {
 	sleep: {
 		data: [
-			{ day: "Feb 23rd", hours: 7.5, mood: 2 },
-			{ day: "Feb 24th", hours: 6, mood: 1 },
-			{ day: "Feb 25th", hours: 9, mood: 4 },
-			{ day: "Feb 26th", hours: 7.5, mood: 3 },
-			{ day: "Feb 27th", hours: 7.5, mood: 2 },
-			{ day: "Feb 28th", hours: 6, mood: 1 }
+			{
+				"sleep_id": 2,
+				"user_id": 2,
+				"started_sleep": "07:54:00",
+				"ended_sleep": "10:25:00",
+				"date": "2020-03-02T02:43:55.960Z",
+				"mood": 1,
+				"username": "test_user_two",
+				"comment": "my sleep was terrible!"
+			  },
+			  {
+				"sleep_id": 4,
+				"user_id": 2,
+				"started_sleep": "05:54:00",
+				"ended_sleep": "11:30:00",
+				"date": "2020-03-02T02:44:15.043Z",
+				"mood": 2,
+				"username": "test_user_two",
+				"comment": "my sleep was bad!"
+			  },
+			  {
+				"sleep_id": 7,
+				"user_id": 2,
+				"started_sleep": "05:54:00",
+				"ended_sleep": "11:30:00",
+				"date": "2020-03-02T02:45:24.991Z",
+				"mood": 1,
+				"username": "test_user_two",
+				"comment": "my sleep was okay"
+			  }
 		],
 		moods: ["😡", "😔", "😐", "😄"]
 	},
@@ -37,6 +61,15 @@ export const reducer = (state = initialState, action) => {
 				}
 		
 			};
+		case LOGOUT_USER:
+			return {
+				...state,
+				sleep: {
+					...state.sleep,
+					data: []
+				},
+				user: {}
+			}
 		case LOGIN_USER:
 			return {
 				...state,
