@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import SleepDetail from "./SleepDetail";
+import stringifyDate from "./StringifyDate";
 
 const useStyles = makeStyles(theme => ({
     modal: {
@@ -30,6 +31,25 @@ const useStyles = makeStyles(theme => ({
 
 function SleepGraph({ sleep, showHours, showMood }) {
    console.log("SLEEPGRAPH", sleep);
+   sleep.data = sleep.data.map((entry)=>{
+       let day = new Date(entry.date);
+       //fixing a bug that makes it show yesterday's date instead
+       day = new Date(day.getTime() + 1000*3600*24);
+       let startHour = Number(entry.started_sleep.slice(0,2));
+       let endHour = Number(entry.ended_sleep.slice(0,2));
+       let hours = endHour > startHour ? endHour-startHour : endHour + (24-startHour);
+       let startMins = Number(entry.started_sleep.slice(3, 5));
+       let endMins = Number(entry.ended_sleep.slice(3, 5));
+       let minutes = endMins - startMins;
+       let halfHour = Math.round(minutes /=30)/2;
+        console.log(halfHour);
+        let updatedEntry = {
+            ...entry,
+            day: stringifyDate(day, "M jS"),
+            hours: hours+halfHour,
+        };
+        return updatedEntry;
+   });
     const [selectedData, setSelectedData] = React.useState({});
     const classes=useStyles();
     function handleToggleModal(data){
@@ -124,13 +144,13 @@ function SleepGraph({ sleep, showHours, showMood }) {
                     events={[{
                         target: "labels",
                         eventHandlers: {
-                            onClick: () => {return [{ target: "data", mutation: (props) =>handleToggleModal(props.datum) }];}
+                            onClick: () => {return [{ target: "data", mutation: (props) =>handleToggleModal({...props.datum, mood: props.datum.mood*4/graphHeight}) }];}
                         }
                     }]}
-                    data={sleep.data.map(({ day, mood, hours }) => {
-                        return { day: day, hasComment: true, hours: hours, mood: mood * graphHeight / 4 };
+                    data={sleep.data.map((entry) => {
+                        return { ...entry, mood: entry.mood * graphHeight / 4 };
                     })}
-                    labels={sleep.data.map(({ mood, hasComment, hours }) => showMood ? sleep.moods[mood - 1] + `${hasComment ? "" : "💬"}` : `${hours} ${/*hasComment ? "" : */"💬"}`)}
+                    labels={sleep.data.map(({ mood, comment, hours }) => showMood ? sleep.moods[mood - 1] + `${comment ? "💬" : ""}` : `${hours} ${comment ? "💬" : ""}`)}
                     style={{
                         data: {
                             fill: "#ffffff00",//({datum})=> moodToColor(datum.mood, "dd"),
@@ -160,7 +180,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
             >
                 <Fade in={dateModal}>
                     <Paper elevation={3}>
-                        <SleepDetail {...selectedData}/>
+                        <SleepDetail {...selectedData} moods={sleep.moods}/>
                     </Paper>
                 </Fade>
             </Modal>
