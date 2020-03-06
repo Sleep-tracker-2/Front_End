@@ -19,6 +19,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from "@material-ui/core/Button";
 
 import { makeStyles } from '@material-ui/core/styles';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles(theme => ({
 logoStyle : {
@@ -49,6 +50,11 @@ logoStyle : {
         right: 20
     }
 }));
+
+function handleLogOut() {
+    localStorage.clear();
+    // axiosWithAuth().get(/users/logout)
+}
 
 const UserDash = () => {
     function toggleModal() {

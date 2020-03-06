@@ -19,9 +19,12 @@ export function loginUser(user) {
 export const getSleepData = () => dispatch => {
     dispatch({ type: FETCH_DATA_START });
     axiosWithAuth()
-      .get(`users/${userID}/sleep`)
+      .get(`users/${userID}/sleep` )
       .then(res =>
-        dispatch({ type: FETCH_DATA_SUCCESS, payload: res.data.results })
+        {
+          console.log("DATA:", res);
+          
+          dispatch({ type: FETCH_DATA_SUCCESS, payload: res.data })}
       )
       .catch(err => dispatch({ type: FETCH_DATA_FAIL, payload: err }))
   };
