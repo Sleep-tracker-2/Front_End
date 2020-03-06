@@ -1,4 +1,4 @@
-import {FETCH_DATA_FAIL, FETCH_DATA_START, FETCH_DATA_SUCCESS, LOGIN_USER} from '../actions'
+import {FETCH_DATA_FAIL, FETCH_DATA_START, FETCH_DATA_SUCCESS, LOGIN_USER, LOGOUT_USER} from '../actions'
 
 export const initialState = {
 	sleep: {
@@ -6,11 +6,14 @@ export const initialState = {
 			{
 				"sleep_id": 2,
 				"user_id": 2,
+
 				"started_sleep": "07:11:00",
+
 				"ended_sleep": "10:25:00",
 				"date": "2020-03-02T02:43:55.960Z",
 				"mood": 1,
 				"username": "test_user_two",
+
 				"comment": ""
 			},
 			{
@@ -24,15 +27,18 @@ export const initialState = {
 				"comment": "my sleep was bad!"
 			},
 			{
+
 				"sleep_id": 7,
 				"user_id": 2,
 				"started_sleep": "05:54:00",
 				"ended_sleep": "11:30:00",
+
 				"date": "2020-03-04T02:45:24.991Z",
 				"mood": 1,
 				"username": "test_user_two",
 				"comment": "my sleep was okay"
 			}
+
 		],
 		moods: ["😡", "😔", "😐", "😄"]
 	},
@@ -59,6 +65,15 @@ export const reducer = (state = initialState, action) => {
 				}
 		
 			};
+		case LOGOUT_USER:
+			return {
+				...state,
+				sleep: {
+					...state.sleep,
+					data: []
+				},
+				user: {}
+			}
 		case LOGIN_USER:
 			return {
 				...state,
