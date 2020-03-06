@@ -17,7 +17,7 @@ function SleepGraphContainer(props) {
 
 
 	
-	useEffect(() => {props.getSleepData()}, [])
+	// useEffect(() => {props.getSleepData()}, [])
 	
 
 	const [displayedPlots, setDisplayedPlots] = React.useState({
