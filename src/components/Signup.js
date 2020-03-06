@@ -6,6 +6,8 @@ import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import axios from 'axios';
 
+// import axios from "../utils/axiosWithAuth"
+
 const Signup = () => {
     const history = useHistory();
     return (
@@ -43,6 +45,9 @@ const Signup = () => {
                             console.log(res);
                             setSubmitting(false);
                             return submitValues;
+                        })
+                        .then(vaules => {
+                            //TODO: Add in logic from Login here
                         })
                         .catch(err => {
                             

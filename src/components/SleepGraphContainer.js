@@ -1,10 +1,12 @@
 
-import React, { useReducer } from "react";
+import React, { useEffect } from "react";
 
 import SleepGraph from "./SleepGraph";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+
+import {getSleepData} from '../actions'
 
 
 import {connect} from 'react-redux'
@@ -14,7 +16,9 @@ import {connect} from 'react-redux'
 function SleepGraphContainer(props) {
 
 
-	console.log(props)
+	
+	useEffect(() => {props.getSleepData()}, [])
+	
 
 	const [displayedPlots, setDisplayedPlots] = React.useState({
 		showHours: true,
@@ -63,4 +67,5 @@ const mapStateToProps = state => {
   
   export default connect(
 	mapStateToProps,
+	{getSleepData}
   )(SleepGraphContainer);

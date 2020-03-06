@@ -26,11 +26,11 @@ function Splash({ page }) {
 		position: "fixed",
 		top: "10px",
 		left: "10px",
-		width: "20%"
+		width: "13%"
 	};
 
 	const LinkBehavior = React.forwardRef((props, ref) => (
-		<RouterLink ref={ref} to='/sleep' {...props} />
+		<RouterLink ref={ref} to='/userdash' {...props} />
 	));
 
 	const buttonStyle = {
@@ -47,11 +47,12 @@ function Splash({ page }) {
 				{!token ? (
 					<AuthButtons buttonStyle={buttonStyle} page={page} />
 				) : (
-						<SleepTrackerButtons buttonStyle={buttonStyle} page={page} />
-						/*
 						<Button component={LinkBehavior} style={buttonStyle}>
 							Track your Sleep &gt;&gt;
-						</Button>*/
+						</Button>
+						/*
+						<SleepTrackerButtons buttonStyle={buttonStyle} page={page} />
+						*/
 					)
 
 				}
