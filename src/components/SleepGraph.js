@@ -2,7 +2,7 @@
 
 import React, { useContext, useState } from "react";
 
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 import ReactDOM from "react-dom";
 //import { SleepContext } from "../contextsA/SleepContext";
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryBar, VictoryTheme } from 'victory';
@@ -11,7 +11,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SleepDetail from "./SleepDetail";
 import stringifyDate from "./StringifyDate";
 
@@ -30,35 +30,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function SleepGraph({ sleep, showHours, showMood }) {
-   console.log("SLEEPGRAPH", sleep);
-   sleep.data = sleep.data.map((entry)=>{
-       let day = new Date(entry.date);
-       //fixing a bug that makes it show yesterday's date instead
-       day = new Date(day.getTime() + 1000*3600*24);
-       let startHour = Number(entry.started_sleep.slice(0,2));
-       let endHour = Number(entry.ended_sleep.slice(0,2));
-       let hours = endHour > startHour ? endHour-startHour : endHour + (24-startHour);
-       let startMins = Number(entry.started_sleep.slice(3, 5));
-       let endMins = Number(entry.ended_sleep.slice(3, 5));
-       let minutes = endMins - startMins;
-       let halfHour = Math.round(minutes /=30)/2;
+    console.log("SLEEPGRAPH", sleep);
+    sleep.data = sleep.data.map((entry) => {
+        let day = new Date(entry.date);
+        //fixing a bug that makes it show yesterday's date instead
+        day = new Date(day.getTime() + 1000 * 3600 * 24);
+        let startHour = Number(entry.started_sleep.slice(0, 2));
+        let endHour = Number(entry.ended_sleep.slice(0, 2));
+        let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);
+        let startMins = Number(entry.started_sleep.slice(3, 5));
+        let endMins = Number(entry.ended_sleep.slice(3, 5));
+        let minutes = endMins - startMins;
+        let halfHour = Math.round(minutes /= 30) / 2;
         console.log(halfHour);
         let updatedEntry = {
             ...entry,
             day: stringifyDate(day, "M jS"),
-            hours: hours+halfHour,
+            hours: hours + halfHour,
         };
         return updatedEntry;
-   });
+    });
     const [selectedData, setSelectedData] = React.useState({});
-    const classes=useStyles();
-    function handleToggleModal(data){
+    const classes = useStyles();
+    function handleToggleModal(data) {
         setSelectedData(data);
         setDateModal(!dateModal);
     }
-    const [dateModal, setDateModal]= React.useState(false);
+    const [dateModal, setDateModal] = React.useState(false);
     //Calc Sleep
-    const graphHeight = sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0);
+    const graphHeight = sleep.data[0]
+        ? sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0)
+        : 10;
     //const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
         switch (mood) {
@@ -144,7 +146,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
                     events={[{
                         target: "labels",
                         eventHandlers: {
-                            onClick: () => {return [{ target: "data", mutation: (props) =>handleToggleModal({...props.datum, mood: props.datum.mood*4/graphHeight}) }];}
+                            onClick: () => { return [{ target: "data", mutation: (props) => handleToggleModal({ ...props.datum, mood: props.datum.mood * 4 / graphHeight }) }]; }
                         }
                     }]}
                     data={sleep.data.map((entry) => {
@@ -180,7 +182,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
             >
                 <Fade in={dateModal}>
                     <Paper elevation={3}>
-                        <SleepDetail {...selectedData} moods={sleep.moods}/>
+                        <SleepDetail {...selectedData} moods={sleep.moods} />
                     </Paper>
                 </Fade>
             </Modal>
@@ -189,11 +191,11 @@ function SleepGraph({ sleep, showHours, showMood }) {
 }
 
 const mapStateToProps = state => {
-	return {
-	  sleep: state.sleep
-	};
-  };
-  
-  export default connect(
-	mapStateToProps,
-  )(SleepGraph);
+    return {
+        sleep: state.sleep
+    };
+};
+
+export default connect(
+    mapStateToProps,
+)(SleepGraph);
