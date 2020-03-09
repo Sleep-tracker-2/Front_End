@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserDash(props) {
-  const sleep = {data: ['','']};
+  const sleep = { data: ['', ''] };
   sleep.data = props.sleep.data;
 
   function toggleModal() {
@@ -68,8 +68,10 @@ function UserDash(props) {
   const classes = useStyles();
   const [newEntryModal, setNewEntryModal] = React.useState(false);
   const history = useHistory();
-  
 
+  React.useEffect(() => {
+    sleep.data = props.sleep.data;
+  }, [props]);
   function handleLogOut() {
     localStorage.clear();
     props.logoutUser();
@@ -90,7 +92,7 @@ function UserDash(props) {
             Sleep Tracker
           </Typography>
           <SleepGraphContainer />
-          {/*          <List id="sleepList">
+          {          <List id="sleepList">
             {sleep.data.map(sleep => {
               return (
                 <ListItem
@@ -109,8 +111,8 @@ function UserDash(props) {
                 </ListItem>
               );
               })}
-            </List> */}
-          {props.sleep.data.length > 0 &&
+            </List>}
+          {props.sleep.data.length > 0 ?
             <>
               <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
               <Grid container direction="column">
@@ -119,6 +121,10 @@ function UserDash(props) {
                 <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(sleep.data.reduce((ac, val) => ac + val.mood, 0) / sleep.data.length) - 1]}`}
                 </Typograhpy></Grid>
               </Grid>
+            </>
+            : <>
+              <br />
+              <Typograhpy variant="h3" style={{ textAlign: "right" }}>Click "+" to add your first entry -></Typograhpy>
             </>}
         </Paper>
       </Container>

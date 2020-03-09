@@ -67,7 +67,9 @@ export const reducer = (state = initialState, action) => {
         sleep: {
           ...state.sleep,
           data: action.payload.map((entry) => {
-            let day = new Date(entry.date);
+            let day = new Date(entry.date.slice(0,10));
+            //fix a bug being a day behind
+            day = new Date(day.getTime()+1000*3600*24);
             let startHour = Number(entry.started_sleep.slice(0, 2));
             let endHour = Number(entry.ended_sleep.slice(0, 2));
             let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);
@@ -79,9 +81,13 @@ export const reducer = (state = initialState, action) => {
             let updatedEntry = {
               ...entry,
               day: stringifyDate(day, "M jS"),
-              hours: hours + halfHour,
+              hours: startHour===endHour? 0:hours + halfHour,
             };
             return updatedEntry;
+          }).sort((a,b)=>{
+            const dateA = (new Date(a.date)).getTime();
+            const dateB = (new Date(b.date)).getTime();
+            return dateA-dateB;
           })
         },
         err: ""
