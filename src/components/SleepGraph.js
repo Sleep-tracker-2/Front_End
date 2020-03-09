@@ -34,7 +34,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
     sleep.data = sleep.data.map((entry) => {
         let day = new Date(entry.date);
         //fixing a bug that makes it show yesterday's date instead
-        day = new Date(day.getTime() + 1000 * 3600 * 24);
+        //day = new Date(day.getTime() + 1000 * 3600 * 24);
         let startHour = Number(entry.started_sleep.slice(0, 2));
         let endHour = Number(entry.ended_sleep.slice(0, 2));
         let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);

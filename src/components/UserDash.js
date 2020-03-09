@@ -1,8 +1,8 @@
 import React from "react";
 import SleepGraphContainer from "./SleepGraphContainer";
+import stringifyDate from "./StringifyDate";
 import NewEntry from "./NewEntry.js";
 import {
-
   Container,
   List,
   ListItem,
@@ -14,6 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Grid from '@material-ui/core/Grid';
+import Typograhpy from '@material-ui/core/Typography';
 
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -58,6 +59,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserDash(props) {
+  const sleep = {data: ['','']};
+  sleep.data = props.sleep.data.map((entry) => {
+    let day = new Date(entry.date);
+    //fixing a bug that makes it show yesterday's date instead
+    //day = new Date(day.getTime() + 1000 * 3600 * 24);
+    let startHour = Number(entry.started_sleep.slice(0, 2));
+    let endHour = Number(entry.ended_sleep.slice(0, 2));
+    let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);
+    let startMins = Number(entry.started_sleep.slice(3, 5));
+    let endMins = Number(entry.ended_sleep.slice(3, 5));
+    let minutes = endMins - startMins;
+    let halfHour = Math.round(minutes /= 30) / 2;
+    console.log(halfHour);
+    let updatedEntry = {
+      ...entry,
+      day: stringifyDate(day, "M jS"),
+      hours: hours + halfHour,
+    };
+    return updatedEntry;
+  });
 
   function toggleModal() {
     setNewEntryModal(!newEntryModal);
@@ -65,6 +86,7 @@ function UserDash(props) {
   const classes = useStyles();
   const [newEntryModal, setNewEntryModal] = React.useState(false);
   const history = useHistory();
+  
 
   function handleLogOut() {
     localStorage.clear();
@@ -86,8 +108,8 @@ function UserDash(props) {
             Sleep Tracker
           </Typography>
           <SleepGraphContainer />
-          <List id="sleepList">
-            {initialState.sleep.data.map(sleep => {
+          {/*          <List id="sleepList">
+            {sleep.data.map(sleep => {
               return (
                 <ListItem
                   style={{ justifyContent: "space-around" }}
@@ -104,8 +126,18 @@ function UserDash(props) {
                   </Typography>
                 </ListItem>
               );
-            })}
-          </List>
+              })}
+            </List> */}
+          {props.sleep.data.length > 0 &&
+            <>
+              <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
+              <Grid container direction="column">
+                <Grid item><Typograhpy variant="h6">{`Average sleep: ${Math.round(sleep.data.reduce((ac, val) => ac + val.hours, 0) / sleep.data.length)} hours`}
+                </Typograhpy></Grid>
+                <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(sleep.data.reduce((ac, val) => ac + val.mood, 0) / sleep.data.length) - 1]}`}
+                </Typograhpy></Grid>
+              </Grid>
+            </>}
         </Paper>
       </Container>
       <Fab
@@ -157,7 +189,8 @@ function UserDash(props) {
 const mapStateToProps = state => {
 
   return {
-    user: state.user
+    user: state.user,
+    sleep: state.sleep
   };
 };
 
