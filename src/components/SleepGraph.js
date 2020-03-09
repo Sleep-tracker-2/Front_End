@@ -13,7 +13,11 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import SleepDetail from "./SleepDetail";
-import stringifyDate from "./StringifyDate";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import ArrowBack from "@material-ui/icons/ArrowBack";
+import ArrowForward from "@material-ui/icons/ArrowForward";
 
 const useStyles = makeStyles(theme => ({
     modal: {
@@ -28,20 +32,45 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 3)
     }
 }));
+const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
 
 function SleepGraph({ sleep, showHours, showMood }) {
     console.log("SLEEPGRAPH", sleep);
-   
+    const [displayedData, setDisplayedData] = React.useState(sleep.data);
     const [selectedData, setSelectedData] = React.useState({});
+    const [month, setMonth] = React.useState(new Date().getMonth());
+    const [year, setYear] = React.useState(2020);
     const classes = useStyles();
     function handleToggleModal(data) {
         setSelectedData(data);
         setDateModal(!dateModal);
     }
+
+    React.useEffect(() => {
+        setDisplayedData(sleep.data.filter((entry) => {
+            const date = new Date(entry.date);
+            return (new Date(date)).getMonth() === month && (new Date(date)).getFullYear() === year;
+        }));
+
+    }, [sleep, month, year]);
+
     const [dateModal, setDateModal] = React.useState(false);
     //Calc Sleep
-    const graphHeight = sleep.data[0]
-        ? sleep.data.reduce((ac, val) => Math.max(ac, val.hours), 0)
+    const graphHeight = displayedData[0]
+        ? displayedData.reduce((ac, val) => Math.max(ac, val.hours), 0)
         : 10;
     //const {moods} = React.useContext(SleepContext);
     function moodToColor(mood, opacity) {
@@ -55,9 +84,36 @@ function SleepGraph({ sleep, showHours, showMood }) {
     }
     return (
         <>
+            <Container style={{zIndex:"10"}}
+            ><Grid container direction="row" style={{ justifyContent: "space-around" }}>
+                    <Button variant="outlined"
+                        onClick={() => {
+                            if (month == 0) {
+                                setMonth(11);
+                                setYear(year - 1);
+                            }
+                            else
+                                setMonth(month - 1);
+                        }}
+                    ><ArrowBack /></Button>
+                    <Typography variant="h4">{months[month] + " " + year}</Typography>
+                    <Button variant="outlined"
+                        disabled={(new Date()).getMonth() === month && (new Date()).getFullYear() === year}
+                        onClick={() => {
+                            if (month == 11) {
+                                setMonth(0);
+                                setYear(year + 1);
+                            }
+                            else
+                                setMonth(month + 1);
+                        }}
+                    ><ArrowForward /></Button>
+                </Grid>
+            </Container>
             <VictoryChart
                 style={{
-
+                    zIndex: "0",
+                    transform: "translateY(-50px)"
                 }}
                 domainPadding={20}>
                 <VictoryAxis
@@ -75,8 +131,8 @@ function SleepGraph({ sleep, showHours, showMood }) {
                             fill: "#ffffff",
                         },
                     }}
-                    tickValues={sleep.data.map((datum, idx) => idx + 1)}
-                    tickFormat={sleep.data.map(datum => datum.day)}
+                    tickValues={displayedData.map((datum, idx) => idx + 1)}
+                    tickFormat={displayedData.map(datum => datum.day)}
                     label="Date"
                 />
                 <VictoryAxis
@@ -119,7 +175,7 @@ function SleepGraph({ sleep, showHours, showMood }) {
                             fill: "#ffffff",
                         },
                     }}
-                    data={sleep.data}
+                    data={displayedData}
                     //labels={showMood ? [] : ({ datum }) => `${datum.hours} hrs ${/*hasComment ? "" : */"💬"}`}
                     x="day"
                     y="hours"
@@ -131,10 +187,10 @@ function SleepGraph({ sleep, showHours, showMood }) {
                             onClick: () => { return [{ target: "data", mutation: (props) => handleToggleModal({ ...props.datum, mood: props.datum.mood * 4 / graphHeight }) }]; }
                         }
                     }]}
-                    data={sleep.data.map((entry) => {
+                    data={displayedData.map((entry) => {
                         return { ...entry, mood: entry.mood * graphHeight / 4 };
                     })}
-                    labels={sleep.data.map(({ mood, comment, hours }) => showMood ? sleep.moods[mood - 1] + `${comment ? "💬" : ""}` : `${hours} ${comment ? "💬" : ""}`)}
+                    labels={displayedData.map(({ mood, comment, hours }) => showMood ? sleep.moods[mood - 1] + `${comment ? "💬" : ""}` : `${hours} ${comment ? "💬" : ""}`)}
                     style={{
                         data: {
                             fill: "#ffffff00",//({datum})=> moodToColor(datum.mood, "dd"),

@@ -81,6 +81,7 @@ export const reducer = (state = initialState, action) => {
             let updatedEntry = {
               ...entry,
               day: stringifyDate(day, "M jS"),
+              date: entry.date.slice(0,10),
               hours: startHour===endHour? 0:hours + halfHour,
             };
             return updatedEntry;
