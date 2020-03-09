@@ -8,6 +8,7 @@ import {
   POST_DATA_FAIL,
   POST_DATA_START
 } from "../actions";
+import stringifyDate from "../components/StringifyDate";
 
 export const initialState = {
   sleep: {
@@ -65,7 +66,23 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         sleep: {
           ...state.sleep,
-          data: action.payload
+          data: action.payload.map((entry) => {
+            let day = new Date(entry.date);
+            let startHour = Number(entry.started_sleep.slice(0, 2));
+            let endHour = Number(entry.ended_sleep.slice(0, 2));
+            let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);
+            let startMins = Number(entry.started_sleep.slice(3, 5));
+            let endMins = Number(entry.ended_sleep.slice(3, 5));
+            let minutes = endMins - startMins;
+            let halfHour = Math.round(minutes /= 30) / 2;
+            console.log(halfHour);
+            let updatedEntry = {
+              ...entry,
+              day: stringifyDate(day, "M jS"),
+              hours: hours + halfHour,
+            };
+            return updatedEntry;
+          })
         },
         err: ""
       };

@@ -60,25 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 function UserDash(props) {
   const sleep = {data: ['','']};
-  sleep.data = props.sleep.data.map((entry) => {
-    let day = new Date(entry.date);
-    //fixing a bug that makes it show yesterday's date instead
-    //day = new Date(day.getTime() + 1000 * 3600 * 24);
-    let startHour = Number(entry.started_sleep.slice(0, 2));
-    let endHour = Number(entry.ended_sleep.slice(0, 2));
-    let hours = endHour > startHour ? endHour - startHour : endHour + (24 - startHour);
-    let startMins = Number(entry.started_sleep.slice(3, 5));
-    let endMins = Number(entry.ended_sleep.slice(3, 5));
-    let minutes = endMins - startMins;
-    let halfHour = Math.round(minutes /= 30) / 2;
-    console.log(halfHour);
-    let updatedEntry = {
-      ...entry,
-      day: stringifyDate(day, "M jS"),
-      hours: hours + halfHour,
-    };
-    return updatedEntry;
-  });
+  sleep.data = props.sleep.data;
 
   function toggleModal() {
     setNewEntryModal(!newEntryModal);
