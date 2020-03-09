@@ -92,6 +92,20 @@ function UserDash(props) {
             Sleep Tracker
           </Typography>
           <SleepGraphContainer />
+          {props.sleep.data.length > 0 ?
+            <>
+              <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
+              <Grid container direction="column">
+                <Grid item><Typograhpy variant="h6">{`Average sleep: ${Math.round(sleep.data.reduce((ac, val) => ac + val.hours, 0) / sleep.data.length)} hours`}
+                </Typograhpy></Grid>
+                <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(sleep.data.reduce((ac, val) => ac + val.mood, 0) / sleep.data.length) - 1]}`}
+                </Typograhpy></Grid>
+              </Grid>
+            </>
+            : <>
+              <br />
+              <Typograhpy variant="h3" style={{ textAlign: "right" }}>Click "+" to add your first entry -></Typograhpy>
+            </>}
           {          <List id="sleepList">
             {sleep.data.map(sleep => {
               return (
@@ -112,20 +126,6 @@ function UserDash(props) {
               );
               })}
             </List>}
-          {props.sleep.data.length > 0 ?
-            <>
-              <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
-              <Grid container direction="column">
-                <Grid item><Typograhpy variant="h6">{`Average sleep: ${Math.round(sleep.data.reduce((ac, val) => ac + val.hours, 0) / sleep.data.length)} hours`}
-                </Typograhpy></Grid>
-                <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(sleep.data.reduce((ac, val) => ac + val.mood, 0) / sleep.data.length) - 1]}`}
-                </Typograhpy></Grid>
-              </Grid>
-            </>
-            : <>
-              <br />
-              <Typograhpy variant="h3" style={{ textAlign: "right" }}>Click "+" to add your first entry -></Typograhpy>
-            </>}
         </Paper>
       </Container>
       <Fab
