@@ -1,8 +1,8 @@
 import React from "react";
 import SleepGraphContainer from "./SleepGraphContainer";
+import stringifyDate from "./StringifyDate";
 import NewEntry from "./NewEntry.js";
 import {
-
   Container,
   List,
   ListItem,
@@ -14,6 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Grid from '@material-ui/core/Grid';
+import Typograhpy from '@material-ui/core/Typography';
 
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -58,6 +59,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserDash(props) {
+  const sleep = { data: ['', ''] };
+  sleep.data = props.sleep.data;
 
   function toggleModal() {
     setNewEntryModal(!newEntryModal);
@@ -66,6 +69,9 @@ function UserDash(props) {
   const [newEntryModal, setNewEntryModal] = React.useState(false);
   const history = useHistory();
 
+  React.useEffect(() => {
+    sleep.data = props.sleep.data;
+  }, [props]);
   function handleLogOut() {
     localStorage.clear();
     props.logoutUser();
@@ -86,8 +92,8 @@ function UserDash(props) {
             Sleep Tracker
           </Typography>
           <SleepGraphContainer />
-          <List id="sleepList">
-            {initialState.sleep.data.map(sleep => {
+          {          <List id="sleepList">
+            {sleep.data.map(sleep => {
               return (
                 <ListItem
                   style={{ justifyContent: "space-around" }}
@@ -104,8 +110,22 @@ function UserDash(props) {
                   </Typography>
                 </ListItem>
               );
-            })}
-          </List>
+              })}
+            </List>}
+          {props.sleep.data.length > 0 ?
+            <>
+              <Typograhpy variant="h3" style={{ margin: "auto", textAlign: "center" }}>Statistics:</Typograhpy>
+              <Grid container direction="column">
+                <Grid item><Typograhpy variant="h6">{`Average sleep: ${Math.round(sleep.data.reduce((ac, val) => ac + val.hours, 0) / sleep.data.length)} hours`}
+                </Typograhpy></Grid>
+                <Grid item><Typograhpy variant="h6">{`Average mood: ${props.sleep.moods[Math.round(sleep.data.reduce((ac, val) => ac + val.mood, 0) / sleep.data.length) - 1]}`}
+                </Typograhpy></Grid>
+              </Grid>
+            </>
+            : <>
+              <br />
+              <Typograhpy variant="h3" style={{ textAlign: "right" }}>Click "+" to add your first entry -></Typograhpy>
+            </>}
         </Paper>
       </Container>
       <Fab
@@ -157,7 +177,8 @@ function UserDash(props) {
 const mapStateToProps = state => {
 
   return {
-    user: state.user
+    user: state.user,
+    sleep: state.sleep
   };
 };
 

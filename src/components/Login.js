@@ -31,7 +31,7 @@ const Login = (props) => {
                     }
                     return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
+                onSubmit={(values, { setSubmitting, setErrors }) => {
                     axiosWithAuth()
                         .post(
                             'users/login',
@@ -50,7 +50,8 @@ const Login = (props) => {
                             
                         })
                         .catch(err => {
-                            setSubmitting(false)
+                            setSubmitting(false);
+                           setErrors({password: "Invalid username or password. Please try again"});
                         });
                        
                 }}

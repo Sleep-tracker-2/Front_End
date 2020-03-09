@@ -3,6 +3,7 @@ import "typeface-roboto";
 import React, { useReducer } from "react";
 import { connect } from "react-redux";
 import { reducer, initialState } from "../reducers";
+import stringifyDate from "./StringifyDate";
 
 import {
   Grid,
@@ -36,6 +37,7 @@ const initialForm = {
 
 function NewEntryForm(props) {
   const history = useHistory();
+
   const [formState, setFormState] = React.useState(initialForm);
   const [attempts, setAttempts] = React.useState(0);
 
@@ -53,11 +55,13 @@ function NewEntryForm(props) {
     for (const item in formState) {
       if (!formState[item] && item !== "comment") return;
     }
-
+    console.log("StartDATE", formState.date);
+    const formDate = new Date(formState.date);
     const entry = {
       started_sleep: `${formState.start_time.getHours()}:${formState.start_time.getMinutes()}:${formState.start_time.getSeconds()}`,
       ended_sleep: `${formState.end_time.getHours()}:${formState.end_time.getMinutes()}:${formState.end_time.getSeconds()}`,
       mood: formState.mood,
+      date: stringifyDate(formDate, "Y-m-d H:i:s"),
       comment: formState.comment
     };
 

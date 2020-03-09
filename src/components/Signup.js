@@ -5,10 +5,15 @@ import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
+import { axiosWithAuth } from '../utils/axiosWithAuth'
+
+import { loginUser } from '../actions';
 
 // import axios from "../utils/axiosWithAuth"
 
-const Signup = () => {
+const Signup = (props) => {
     const history = useHistory();
     return (
         <>
@@ -46,8 +51,27 @@ const Signup = () => {
                             setSubmitting(false);
                             return submitValues;
                         })
-                        .then(vaules => {
-                            //TODO: Add in logic from Login here
+                        .then(values => {
+                            axiosWithAuth()
+                                .post(
+                                    'users/login',
+                                    values
+                                )
+                                .then(res => {
+                                    localStorage.setItem('token', res.data.token);
+                                    localStorage.setItem('user', JSON.stringify(res.data.user));
+                                    console.log(res)
+                                    props.loginUser(res.data.user)
+                                    console.log("LOGIN", props)
+
+                                    setTimeout(() => {
+                                        history.push('/userdash');
+                                    }, 1000)
+
+                                })
+                                .catch(err => {
+                                    setSubmitting(false)
+                                });
                         })
                         .catch(err => {
                             
@@ -95,4 +119,13 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(Signup);
